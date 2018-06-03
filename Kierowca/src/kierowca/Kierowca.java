@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import server.Database;
 
 /**
  *
@@ -33,6 +34,13 @@ public class Kierowca extends Application {
         
         StackPane root = new StackPane();
         root.getChildren().add(btn);
+        
+        /*
+        Database.polacz();
+        Database.init();
+        Database.init2();
+        Database.zamknij();
+        */
         
         Scene scene = new Scene(root, 300, 250);
         
