@@ -9,9 +9,15 @@
  */
 package spedytor;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -23,8 +29,10 @@ public abstract class Menu {
 
         ///////// IMAGE VIEW
         ImageView logo = new ImageView("file:SpeedySpedytor.png");
-        logo.setLayoutX(300);
-        logo.setLayoutY(-50);
+        logo.setLayoutX(0);
+        logo.setLayoutY(10);
+        logo.setFitHeight(100);
+        logo.setFitWidth(200);
 
         ImageView ramka1 = new ImageView("file:ramka.png");
         ramka1.setLayoutX(20);
@@ -50,14 +58,14 @@ public abstract class Menu {
         Text Lista = new Text("Lista Zleceń");
         Lista.setStyle("-fx-font-size: 40pt;");
         Lista.setFill(Color.WHITE);
-        Lista.setLayoutY(250);
-        Lista.setLayoutX(425);
+        Lista.setLayoutY(70);
+        Lista.setLayoutX(525);
 
         Text Zlecenie = new Text("Dodaj Zlecenie");
         Zlecenie.setStyle("-fx-font-size: 40pt;");
         Zlecenie.setFill(Color.WHITE);
-        Zlecenie.setLayoutY(250);
-        Zlecenie.setLayoutX(425);
+        Zlecenie.setLayoutY(70);
+        Zlecenie.setLayoutX(525);
         Zlecenie.setVisible(false);
 
         //----------------------------
@@ -87,7 +95,46 @@ public abstract class Menu {
         cb.setFill(Color.WHITE);
         cb.setLayoutY(600);
         cb.setLayoutX(1000);
+        ///////// TABLE
+
+        TableView zawartosc = new TableView();
+        zawartosc.setEditable(true);
+
+        TableColumn nazwa = new TableColumn("Lista Zleceń");
+        nazwa.setPrefWidth(900);
+        TableColumn ID = new TableColumn("Zlecenie ID");
+        ID.setPrefWidth(900/7);
+        TableColumn Magazyn = new TableColumn("Magazyn");
+        Magazyn.setPrefWidth(900/7);
+        TableColumn Status = new TableColumn("Status");
+       Status.setPrefWidth(900/7);
+        TableColumn Towar = new TableColumn("Towar");
+        Towar.setPrefWidth(900/7);
+         TableColumn Ilosc = new TableColumn("Ilość");
+          Ilosc.setPrefWidth(900/7);
+         TableColumn Kierowca = new TableColumn("Kierowca");
+          Kierowca.setPrefWidth(900/7);
+         TableColumn Data = new TableColumn("Data");
+        Data.setPrefWidth(900/7);
+
+        nazwa.getColumns().addAll(ID, Magazyn, Status, Towar,Ilosc,Kierowca,Data );
+        zawartosc.getColumns().addAll(nazwa);
+        
+      
+
         ///////// ROOOT
+        
+        	final VBox vbox = new VBox();
+        vbox.setLayoutY(100);
+        vbox.setLayoutX(210);
+        vbox.resize(900,550);
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().add(zawartosc);
+        
+        
+       //////////////////////////////////////////// 
+       
         root.getChildren().add(Lista);
         root.getChildren().add(Zlecenie);
         root.getChildren().add(Listam);
@@ -98,11 +145,14 @@ public abstract class Menu {
         root.getChildren().add(ramka1);
         root.getChildren().add(ramka2);
         root.getChildren().add(ramka4);
-        //////// WYKONANIE
+        root.getChildren().add(vbox);
 
+        //////// WYKONANIE
         Listam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             Zlecenie.setVisible(false);
             Lista.setVisible(true);
+            vbox.getChildren().clear();
+            vbox.getChildren().add(zawartosc);
 
         });
         Listam.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
@@ -117,6 +167,7 @@ public abstract class Menu {
         Zleceniem.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             Zlecenie.setVisible(true);
             Lista.setVisible(false);
+            vbox.getChildren().clear();
         });
         Zleceniem.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
             ramka2.setVisible(false);
