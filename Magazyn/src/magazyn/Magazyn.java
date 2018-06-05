@@ -22,7 +22,7 @@ public class Magazyn extends Application {
 
     @Override
     public void start(Stage primaryStage) {
- 
+
         /*
         Database.polacz();
         Database.init();
