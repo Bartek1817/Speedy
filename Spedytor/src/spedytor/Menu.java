@@ -103,38 +103,33 @@ public abstract class Menu {
         TableColumn nazwa = new TableColumn("Lista Zleceń");
         nazwa.setPrefWidth(900);
         TableColumn ID = new TableColumn("Zlecenie ID");
-        ID.setPrefWidth(900/7);
+        ID.setPrefWidth(900 / 7);
         TableColumn Magazyn = new TableColumn("Magazyn");
-        Magazyn.setPrefWidth(900/7);
+        Magazyn.setPrefWidth(900 / 7);
         TableColumn Status = new TableColumn("Status");
-       Status.setPrefWidth(900/7);
+        Status.setPrefWidth(900 / 7);
         TableColumn Towar = new TableColumn("Towar");
-        Towar.setPrefWidth(900/7);
-         TableColumn Ilosc = new TableColumn("Ilość");
-          Ilosc.setPrefWidth(900/7);
-         TableColumn Kierowca = new TableColumn("Kierowca");
-          Kierowca.setPrefWidth(900/7);
-         TableColumn Data = new TableColumn("Data");
-        Data.setPrefWidth(900/7);
+        Towar.setPrefWidth(900 / 7);
+        TableColumn Ilosc = new TableColumn("Ilość");
+        Ilosc.setPrefWidth(900 / 7);
+        TableColumn Kierowca = new TableColumn("Kierowca");
+        Kierowca.setPrefWidth(900 / 7);
+        TableColumn Data = new TableColumn("Data");
+        Data.setPrefWidth(900 / 7);
 
-        nazwa.getColumns().addAll(ID, Magazyn, Status, Towar,Ilosc,Kierowca,Data );
+        nazwa.getColumns().addAll(ID, Magazyn, Status, Towar, Ilosc, Kierowca, Data);
         zawartosc.getColumns().addAll(nazwa);
-        
-      
 
         ///////// ROOOT
-        
-        	final VBox vbox = new VBox();
+        final VBox vbox = new VBox();
         vbox.setLayoutY(100);
         vbox.setLayoutX(210);
-        vbox.resize(900,550);
+        vbox.resize(900, 550);
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().add(zawartosc);
-        
-        
-       //////////////////////////////////////////// 
-       
+
+        //////////////////////////////////////////// 
         root.getChildren().add(Lista);
         root.getChildren().add(Zlecenie);
         root.getChildren().add(Listam);

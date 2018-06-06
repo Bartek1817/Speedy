@@ -20,10 +20,10 @@ import server.Database;
  * @author Arekl
  */
 public class Kierowca extends Application {
-  
+
     @Override
     public void start(Stage primaryStage) {
- 
+
         /*
         Database.polacz();
         Database.init();
@@ -52,4 +52,3 @@ public class Kierowca extends Application {
     }
 
 }
-

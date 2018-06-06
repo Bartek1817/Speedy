@@ -9,9 +9,13 @@
  */
 package magazyn;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -23,8 +27,10 @@ public abstract class Menu {
 
         ///////// IMAGE VIEW
         ImageView logo = new ImageView("file:SpeedyMagazyn.png");
-        logo.setLayoutX(300);
-        logo.setLayoutY(-50);
+        logo.setLayoutX(0);
+        logo.setLayoutY(10);
+        logo.setFitHeight(100);
+        logo.setFitWidth(200);
 
         ImageView ramka1 = new ImageView("file:ramka.png");
         ramka1.setLayoutX(20);
@@ -57,21 +63,21 @@ public abstract class Menu {
         Text Lista = new Text("Lista Zamówień");
         Lista.setStyle("-fx-font-size: 40pt;");
         Lista.setFill(Color.WHITE);
-        Lista.setLayoutY(250);
-        Lista.setLayoutX(425);
+        Lista.setLayoutY(70);
+        Lista.setLayoutX(525);
 
         Text Towary = new Text("Lista Towarów");
         Towary.setStyle("-fx-font-size: 40pt;");
         Towary.setFill(Color.WHITE);
-        Towary.setLayoutY(250);
-        Towary.setLayoutX(425);
+        Towary.setLayoutY(70);
+        Towary.setLayoutX(525);
         Towary.setVisible(false);
 
         Text Info = new Text("Informacje");
         Info.setStyle("-fx-font-size: 40pt;");
         Info.setFill(Color.WHITE);
-        Info.setLayoutY(250);
-        Info.setLayoutX(425);
+        Info.setLayoutY(70);
+        Info.setLayoutX(525);
         Info.setVisible(false);
         //----------------------------
 
@@ -108,7 +114,69 @@ public abstract class Menu {
         cb.setFill(Color.WHITE);
         cb.setLayoutY(600);
         cb.setLayoutX(1000);
+        ///////// TABLE
+
+        TableView tabela1 = new TableView();
+        tabela1.setEditable(true);
+
+        TableColumn tab1 = new TableColumn("Lista Zamówień");
+        tab1.setPrefWidth(900);
+        TableColumn ID = new TableColumn("Zamówienie ID");
+        ID.setPrefWidth(900 / 4);
+        TableColumn Towar = new TableColumn("Towar");
+        Towar.setPrefWidth(900 / 4);
+        TableColumn Ilosc = new TableColumn("Ilość");
+        Ilosc.setPrefWidth(900 / 4);
+        TableColumn Kierowca = new TableColumn("Kierowca");
+        Kierowca.setPrefWidth(900 / 4);
+
+        tab1.getColumns().addAll(ID, Towar, Ilosc, Kierowca);
+        tabela1.getColumns().addAll(tab1);
+        //  -------------------------------
+
+        TableView tabela2 = new TableView();
+        tabela2.setEditable(true);
+
+        TableColumn tab2 = new TableColumn("Informacje");
+        tab2.setPrefWidth(900);
+        TableColumn ID_tab2 = new TableColumn("ID");
+        ID_tab2.setPrefWidth(900 / 3);
+        TableColumn Magazyn_nazwa = new TableColumn("Nazwa");
+        Magazyn_nazwa.setPrefWidth(900 / 3);
+        TableColumn Status_wartosc = new TableColumn("Wartość");
+        Status_wartosc.setPrefWidth(900 / 3);
+
+        tab2.getColumns().addAll(ID_tab2, Magazyn_nazwa, Status_wartosc);
+        tabela2.getColumns().addAll(tab2);
+
+        //  -------------------------------
+        TableView tabela3 = new TableView();
+        tabela3.setEditable(true);
+
+        TableColumn tab3 = new TableColumn("Towary");
+        tab3.setPrefWidth(900);
+        TableColumn IdTowaru = new TableColumn("Id Towaru");
+        IdTowaru.setPrefWidth(900 / 4);
+        TableColumn Nazwa = new TableColumn("Nazwa");
+        Nazwa.setPrefWidth(900 / 4);
+        TableColumn Regał = new TableColumn("Regał");
+        Regał.setPrefWidth(900 / 4);
+        TableColumn Ilość = new TableColumn("Ilość");
+        Ilość.setPrefWidth(900 / 4);
+
+        tab3.getColumns().addAll(IdTowaru, Nazwa, Regał, Ilość);
+        tabela3.getColumns().addAll(tab3);
+
         ///////// ROOOT
+        final VBox vbox = new VBox();
+        vbox.setLayoutY(100);
+        vbox.setLayoutX(210);
+        vbox.resize(900, 550);
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().add(tabela1);
+
+        //////////////////////////////////////////// 
         root.getChildren().add(Lista);
         root.getChildren().add(Towary);
         root.getChildren().add(Info);
@@ -122,12 +190,15 @@ public abstract class Menu {
         root.getChildren().add(ramka2);
         root.getChildren().add(ramka3);
         root.getChildren().add(ramka4);
+        root.getChildren().add(vbox);
         //////// WYKONANIE
 
         Listam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             Info.setVisible(false);
             Towary.setVisible(false);
             Lista.setVisible(true);
+            vbox.getChildren().clear();
+            vbox.getChildren().add(tabela1);
 
         });
         Listam.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
@@ -143,6 +214,8 @@ public abstract class Menu {
             Info.setVisible(false);
             Towary.setVisible(true);
             Lista.setVisible(false);
+            vbox.getChildren().clear();
+            vbox.getChildren().add(tabela3);
         });
         Towarym.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
             ramka2.setVisible(false);
@@ -158,6 +231,8 @@ public abstract class Menu {
             Info.setVisible(true);
             Towary.setVisible(false);
             Lista.setVisible(false);
+            vbox.getChildren().clear();
+            vbox.getChildren().add(tabela2);
         });
         Infom.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
             ramka3.setVisible(false);
@@ -181,5 +256,5 @@ public abstract class Menu {
 
         });
     }
-    
+
 }

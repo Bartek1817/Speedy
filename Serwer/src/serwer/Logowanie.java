@@ -9,7 +9,6 @@
  */
 package serwer;
 
-
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -34,12 +33,12 @@ public abstract class Logowanie {
         ImageView logo = new ImageView("file:SpeedySerwer.png");
         logo.setLayoutX(300);
         logo.setLayoutY(-50);
-        
+
         ImageView ramka = new ImageView("file:ramka.png");
         ramka.setLayoutX(445);
         ramka.setLayoutY(470);
         ramka.setFitHeight(100);
-	ramka.setFitWidth(290);
+        ramka.setFitWidth(290);
         ramka.setVisible(false);
 
         //////// TEKSTY 
@@ -120,16 +119,16 @@ public abstract class Logowanie {
                 z.printStackTrace();
             }
         });
-        
+
         Zaloguj.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
-			ramka.setVisible(false);
-		
-		});
-		Zaloguj.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
-			ramka.setVisible(true);
-			
-		});
+            ramka.setVisible(false);
+
+        });
+        Zaloguj.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka.setVisible(true);
+
+        });
 
     }
-    
+
 }
