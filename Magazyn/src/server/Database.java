@@ -5,10 +5,13 @@
  */
 package server;
 
+import dane.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -121,5 +124,125 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    public static ArrayList<Towar> readTowary() {
+        ArrayList<Towar> a = new ArrayList<Towar>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Towary");
+            while(r.next())
+            {
+                a.add(new Towar(r.getInt("id"), r.getString("nazwa")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Towar readTowar(int id) {
+        Towar a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Towary WHERE id = "+id);
+            if(r.next())
+            {
+                a = new Towar(r.getInt("id"), r.getString("nazwa"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static ArrayList<Zamowienie> readZamowienia() {
+        ArrayList<Zamowienie> a = new ArrayList<Zamowienie>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zamowienia");
+            while(r.next())
+            {
+                a.add(new Zamowienie(r.getInt("id"), r.getInt("id_zlecenia"), readTowar(r.getInt("id_towaru")), r.getInt("ilosc"), r.getInt("status")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Zamowienie readZamowienie(int id) {
+        Zamowienie a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zamowienia WHERE id = "+id);
+            if(r.next())
+            {
+                a = new Zamowienie(r.getInt("id"), r.getInt("id_zlecenia"), readTowar(r.getInt("id_towaru")), r.getInt("ilosc"), r.getInt("status"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static ArrayList<Magazyn> readMagazyny() {
+        ArrayList<Magazyn> a = new ArrayList<Magazyn>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Magazyn");
+            while(r.next())
+            {
+                a.add(new Magazyn(r.getInt("id"), readTowar(r.getInt("id_towaru")), r.getInt("regal"), r.getInt("ilosc")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Magazyn readMagazyn(int id) {
+        Magazyn a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Magazyn WHERE id = "+id);
+            while(r.next())
+            {
+                a = new Magazyn(r.getInt("id"), readTowar(r.getInt("id_towaru")), r.getInt("regal"), r.getInt("ilosc"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static ArrayList<Info> readInfo() {
+        ArrayList<Info> a = new ArrayList<Info>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Informacje");
+            while(r.next())
+            {
+                a.add(new Info(r.getInt("id"), r.getString("nazwa"), r.getString("wartosc")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Info readInfo(int id) {
+        Info a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Informacje WHERE id = "+id);
+            if(r.next())
+            {
+                a = new Info(r.getInt("id"), r.getString("nazwa"), r.getString("wartosc"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
     }
 }
