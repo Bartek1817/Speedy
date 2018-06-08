@@ -9,15 +9,25 @@
  */
 package serwer;
 
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -59,6 +69,21 @@ public abstract class Menu {
         ramka4.setFitHeight(35);
         ramka4.setFitWidth(125);
         ramka4.setVisible(false);
+
+        ImageView ramka5 = new ImageView("file:ramka.png");
+        ramka5.setLayoutX(270);
+        ramka5.setLayoutY(560);
+        ramka5.setFitHeight(35);
+        ramka5.setFitWidth(125);
+        ramka5.setVisible(false);
+
+        ImageView ramka6 = new ImageView("file:ramka.png");
+        ramka6.setLayoutX(420);
+        ramka6.setLayoutY(560);
+        ramka6.setFitHeight(35);
+        ramka6.setFitWidth(125);
+        ramka6.setVisible(false);
+
         ///////// TEXT
         Text Zlecenia = new Text("Lista Zleceń");
         Zlecenia.setStyle("-fx-font-size: 40pt;");
@@ -108,6 +133,54 @@ public abstract class Menu {
         Wylogujm.setLayoutY(500);
         Wylogujm.setLayoutX(30);
         Wylogujm.setPickOnBounds(true);
+
+        Text DodajL = new Text("Dodaj Lokacje");
+        DodajL.setStyle("-fx-font-size: 12pt;");
+        DodajL.setFill(Color.WHITE);
+        DodajL.setLayoutY(580);
+        DodajL.setLayoutX(285);
+        DodajL.setPickOnBounds(true);
+        DodajL.setVisible(false);
+
+        Text UsuńL = new Text("Usuń Lokacje");
+        UsuńL.setStyle("-fx-font-size: 12pt;");
+        UsuńL.setFill(Color.WHITE);
+        UsuńL.setLayoutY(580);
+        UsuńL.setLayoutX(435);
+        UsuńL.setPickOnBounds(true);
+        UsuńL.setVisible(false);
+
+        Text DodajU = new Text("Dodaj Użytkownika");
+        DodajU.setStyle("-fx-font-size: 10pt;");
+        DodajU.setFill(Color.WHITE);
+        DodajU.setLayoutY(577);
+        DodajU.setLayoutX(285);
+        DodajU.setPickOnBounds(true);
+        DodajU.setVisible(false);
+
+        Text UsuńU = new Text("Usuń Użytkownika");
+        UsuńU.setStyle("-fx-font-size: 10pt;");
+        UsuńU.setFill(Color.WHITE);
+        UsuńU.setLayoutY(577);
+        UsuńU.setLayoutX(435);
+        UsuńU.setPickOnBounds(true);
+        UsuńU.setVisible(false);
+
+        Text DodajZ = new Text("Dodaj Zlecenie");
+        DodajZ.setStyle("-fx-font-size: 12pt;");
+        DodajZ.setFill(Color.WHITE);
+        DodajZ.setLayoutY(580);
+        DodajZ.setLayoutX(285);
+        DodajZ.setPickOnBounds(true);
+        DodajZ.setVisible(true);
+
+        Text UsuńZ = new Text("Usuń Zlecenie");
+        UsuńZ.setStyle("-fx-font-size: 12pt;");
+        UsuńZ.setFill(Color.WHITE);
+        UsuńZ.setLayoutY(580);
+        UsuńZ.setLayoutX(435);
+        UsuńZ.setPickOnBounds(true);
+        UsuńZ.setVisible(true);
 
         Text cb = new Text("Aplication Speedy create by: AL && BŻ");
         cb.setStyle("-fx-font-size: 10pt;");
@@ -188,7 +261,292 @@ public abstract class Menu {
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().add(tabela1);
+        ////////////////////////////////////////////
+        ///////////okno start
 
+        Rectangle r = new Rectangle(); // Kwadrat na reszte ekranu żeby zablokować inne klikanie
+        r.setX(-200);
+        r.setY(-200);
+        r.setWidth(1600);
+        r.setHeight(1600);
+        r.setArcWidth(1600);
+        r.setArcHeight(1600);
+        r.setFill(Color.TRANSPARENT);
+        r.setVisible(false);
+
+        Group oknoStart = new Group();
+        oknoStart.setVisible(false);
+
+        oknoStart.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart.setLayoutX(300);
+        oknoStart.setLayoutY(190);
+
+        Label Tytul = new Label("Dodawanie Użytkownika");
+        Tytul.setLayoutX(150);
+        Tytul.setLayoutY(10);
+
+        Label Imięl = new Label("Imię użytkownika");
+        Imięl.setLayoutX(10);
+        Imięl.setLayoutY(30);
+
+        TextField Imięt = new TextField();
+        Imięt.setText("Imię");
+        Imięt.setLayoutX(10);
+        Imięt.setLayoutY(50);
+
+        Label Nazwiskol = new Label("Nazwisko użytkownika");
+        Nazwiskol.setLayoutX(10);
+        Nazwiskol.setLayoutY(70);
+
+        TextField Nazwiskou = new TextField();
+        Nazwiskou.setText("Nazwisko");
+        Nazwiskou.setLayoutX(10);
+        Nazwiskou.setLayoutY(90);
+
+        Label hasłol = new Label("Hasło");
+        hasłol.setLayoutX(10);
+        hasłol.setLayoutY(110);
+
+        TextField hasłot = new TextField();
+        hasłot.setText("Hasło");
+        hasłot.setLayoutX(10);
+        hasłot.setLayoutY(130);
+
+        Label Stanol = new Label("Wybierz Stanowisko");
+        Stanol.setLayoutX(10);
+        Stanol.setLayoutY(150);
+
+        ChoiceBox stanbox = new ChoiceBox(FXCollections.observableArrayList(
+                "First", "Second", "Third")
+        );
+        stanbox.setLayoutX(100);
+        stanbox.setLayoutY(170);
+
+        Label Pozioml = new Label("Wybierz Poziom");
+        Pozioml.setLayoutX(10);
+        Pozioml.setLayoutY(190);
+
+        ChoiceBox poziombox = new ChoiceBox(FXCollections.observableArrayList(
+                "First", "Second", "Third")
+        );
+        poziombox.setLayoutX(100);
+        poziombox.setLayoutY(210);
+
+        Button btn000 = new Button();
+        btn000.setText("X");
+        btn000.setLayoutX(370);
+        btn000.setLayoutY(10);
+        btn000.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn001 = new Button();
+        btn001.setText("Dodaj Użytkownika");
+        btn001.setLayoutX(10);
+        btn001.setLayoutY(265);
+        btn001.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.print("dodano i chuj");
+            }
+        });
+
+        oknoStart.getChildren().add(Tytul);
+        oknoStart.getChildren().add(Imięt);
+        oknoStart.getChildren().add(Imięl);
+        oknoStart.getChildren().add(Nazwiskou);
+        oknoStart.getChildren().add(Nazwiskol);
+        oknoStart.getChildren().add(hasłol);
+        oknoStart.getChildren().add(hasłot);
+        oknoStart.getChildren().add(Stanol);
+        oknoStart.getChildren().add(stanbox);
+        oknoStart.getChildren().add(Pozioml);
+        oknoStart.getChildren().add(poziombox);
+        oknoStart.getChildren().add(btn000);
+        oknoStart.getChildren().add(btn001);
+
+        ///////////koniec = okno start
+        ///////////Poczatek = okno start2
+        Group oknoStart2 = new Group();
+        oknoStart2.setVisible(false);
+
+        oknoStart2.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart2.setLayoutX(300);
+        oknoStart2.setLayoutY(190);
+
+        Label Tytul2 = new Label("Usuwanie Użytkownika");
+        Tytul2.setLayoutX(150);
+        Tytul2.setLayoutY(10);
+
+        Label wybr = new Label("Wybierz którego użytkownika chcesz usunąć");
+        wybr.setLayoutX(100);
+        wybr.setLayoutY(80);
+
+        ChoiceBox cbox = new ChoiceBox(FXCollections.observableArrayList(
+                "First", "Second", "Third")
+        );
+        cbox.setLayoutX(100);
+        cbox.setLayoutY(120);
+
+        Button btn002 = new Button();
+        btn002.setText("X");
+        btn002.setLayoutX(370);
+        btn002.setLayoutY(10);
+        btn002.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart2.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn003 = new Button();
+        btn003.setText("Usuń Towar");
+        btn003.setLayoutX(10);
+        btn003.setLayoutY(265);
+        btn003.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.print("Usunięto i chuj");
+            }
+        });
+
+        oknoStart2.getChildren().add(Tytul2);
+        oknoStart2.getChildren().add(wybr);
+        oknoStart2.getChildren().add(cbox);
+        oknoStart2.getChildren().add(btn003);
+        oknoStart2.getChildren().add(btn002);
+
+        ///////////koniec = okno start2
+        ///////////poczatek = okno start3
+        Group oknoStart3 = new Group();
+        oknoStart3.setVisible(false);
+
+        oknoStart3.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart3.setLayoutX(300);
+        oknoStart3.setLayoutY(190);
+
+        Label Tytul3 = new Label("Dodawanie Lokacji");
+        Tytul3.setLayoutX(150);
+        Tytul3.setLayoutY(10);
+
+        Label Lokal = new Label("Nazwa Lokacji");
+        Lokal.setLayoutX(10);
+        Lokal.setLayoutY(30);
+
+        TextField Lokalt = new TextField();
+        Lokalt.setText("Nazwa");
+        Lokalt.setLayoutX(10);
+        Lokalt.setLayoutY(50);
+
+        Label Typ2 = new Label("Typ Lokacji");
+        Typ2.setLayoutX(10);
+        Typ2.setLayoutY(80);
+
+        TextField Typ2t = new TextField();
+        Typ2t.setText("Typ");
+        Typ2t.setLayoutX(10);
+        Typ2t.setLayoutY(100);
+
+        Label IPLokalizacji = new Label("IP Lokacji");
+        IPLokalizacji.setLayoutX(10);
+        IPLokalizacji.setLayoutY(130);
+
+        TextField IPLokalizacjit = new TextField();
+        IPLokalizacjit.setText("IP");
+        IPLokalizacjit.setLayoutX(10);
+        IPLokalizacjit.setLayoutY(150);
+
+        Button btn004 = new Button();
+        btn004.setText("X");
+        btn004.setLayoutX(370);
+        btn004.setLayoutY(10);
+        btn004.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart3.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn005 = new Button();
+        btn005.setText("Dodaj Lokację");
+        btn005.setLayoutX(10);
+        btn005.setLayoutY(265);
+        btn005.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.print("dodano i chuj");
+            }
+        });
+
+        oknoStart3.getChildren().add(Tytul3);
+        oknoStart3.getChildren().add(Lokal);
+        oknoStart3.getChildren().add(Lokalt);
+        oknoStart3.getChildren().add(Typ2);
+        oknoStart3.getChildren().add(Typ2t);
+        oknoStart3.getChildren().add(IPLokalizacji);
+        oknoStart3.getChildren().add(IPLokalizacjit);
+        oknoStart3.getChildren().add(btn004);
+        oknoStart3.getChildren().add(btn005);
+
+        ///////////koniec = okno start
+        ///////////Poczatek = okno start2
+        Group oknoStart4 = new Group();
+        oknoStart4.setVisible(false);
+
+        oknoStart4.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart4.setLayoutX(300);
+        oknoStart4.setLayoutY(190);
+
+        Label Tytul4 = new Label("Usuwanie Lokacji");
+        Tytul4.setLayoutX(150);
+        Tytul4.setLayoutY(10);
+
+        Label wybr4 = new Label("Wybierz którą Lokacjię chcesz usunąć");
+        wybr4.setLayoutX(100);
+        wybr4.setLayoutY(80);
+
+        ChoiceBox cbox3 = new ChoiceBox(FXCollections.observableArrayList(
+                "First", "Second", "Third")
+        );
+        cbox3.setLayoutX(100);
+        cbox3.setLayoutY(120);
+
+        Button btn006 = new Button();
+        btn006.setText("X");
+        btn006.setLayoutX(370);
+        btn006.setLayoutY(10);
+        btn006.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart4.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn007 = new Button();
+        btn007.setText("Usuń Lokacjię");
+        btn007.setLayoutX(10);
+        btn007.setLayoutY(265);
+        btn007.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.print("Usunięto i chuj");
+            }
+        });
+
+        oknoStart4.getChildren().add(Tytul4);
+        oknoStart4.getChildren().add(wybr4);
+        oknoStart4.getChildren().add(cbox3);
+        oknoStart4.getChildren().add(btn006);
+        oknoStart4.getChildren().add(btn007);
+
+        ///////////koniec = okno start2
         //////////////////////////////////////////// 
         root.getChildren().add(Lista);
         root.getChildren().add(Zlecenia);
@@ -197,19 +555,42 @@ public abstract class Menu {
         root.getChildren().add(Zleceniam);
         root.getChildren().add(Użytkownicym);
         root.getChildren().add(Wylogujm);
+
         root.getChildren().add(cb);
         root.getChildren().add(logo);
         root.getChildren().add(ramka1);
         root.getChildren().add(ramka2);
         root.getChildren().add(ramka3);
         root.getChildren().add(ramka4);
+        root.getChildren().add(ramka5);
+        root.getChildren().add(ramka6);
         root.getChildren().add(vbox);
+
+        root.getChildren().add(DodajZ);
+        root.getChildren().add(UsuńZ);
+        root.getChildren().add(DodajU);
+        root.getChildren().add(UsuńU);
+        root.getChildren().add(DodajL);
+        root.getChildren().add(UsuńL);
+
+        root.getChildren().add(r);
+
+        root.getChildren().add(oknoStart);
+        root.getChildren().add(oknoStart2);
+        root.getChildren().add(oknoStart3);
+        root.getChildren().add(oknoStart4);
         //////// WYKONANIE
 
         Zleceniam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             Użytkownicy.setVisible(false);
             Zlecenia.setVisible(true);
             Lista.setVisible(false);
+            UsuńZ.setVisible(true);
+            DodajZ.setVisible(true);
+            UsuńU.setVisible(false);
+            DodajU.setVisible(false);
+            UsuńL.setVisible(false);
+            DodajL.setVisible(false);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela1);
         });
@@ -226,6 +607,12 @@ public abstract class Menu {
             Użytkownicy.setVisible(false);
             Zlecenia.setVisible(false);
             Lista.setVisible(true);
+            UsuńZ.setVisible(false);
+            DodajZ.setVisible(false);
+            UsuńU.setVisible(false);
+            DodajU.setVisible(false);
+            UsuńL.setVisible(true);
+            DodajL.setVisible(true);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela2);
 
@@ -244,6 +631,12 @@ public abstract class Menu {
             Użytkownicy.setVisible(true);
             Zlecenia.setVisible(false);
             Lista.setVisible(false);
+            UsuńZ.setVisible(false);
+            DodajZ.setVisible(false);
+            UsuńU.setVisible(true);
+            DodajU.setVisible(true);
+            UsuńL.setVisible(false);
+            DodajL.setVisible(false);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela3);
         });
@@ -253,6 +646,80 @@ public abstract class Menu {
         });
         Użytkownicym.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
             ramka3.setVisible(true);
+
+        });
+        DodajZ.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+
+            r.setVisible(true);
+        });
+        DodajZ.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka5.setVisible(false);
+
+        });
+        DodajZ.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka5.setVisible(true);
+
+        });
+        UsuńZ.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+
+            r.setVisible(true);
+        });
+        UsuńZ.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka6.setVisible(false);
+
+        });
+        UsuńZ.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka6.setVisible(true);
+
+        });
+
+        DodajL.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart3.setVisible(true);
+            r.setVisible(true);
+        });
+        DodajL.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka5.setVisible(false);
+
+        });
+        DodajL.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka5.setVisible(true);
+
+        });
+        UsuńL.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart4.setVisible(true);
+            r.setVisible(true);
+        });
+        UsuńL.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka6.setVisible(false);
+
+        });
+        UsuńL.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka6.setVisible(true);
+
+        });
+
+        DodajU.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart.setVisible(true);
+            r.setVisible(true);
+        });
+        DodajU.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka5.setVisible(false);
+
+        });
+        DodajU.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka5.setVisible(true);
+
+        });
+        UsuńU.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart2.setVisible(true);
+            r.setVisible(true);
+        });
+        UsuńU.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka6.setVisible(false);
+
+        });
+        UsuńU.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka6.setVisible(true);
 
         });
 

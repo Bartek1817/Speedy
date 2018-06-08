@@ -9,11 +9,13 @@
  */
 package magazyn;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -216,12 +218,12 @@ public abstract class Menu {
         ///////////okno start
 
         Rectangle r = new Rectangle(); // Kwadrat na reszte ekranu żeby zablokować inne klikanie
-        r.setX(0);
-        r.setY(0);
-        r.setWidth(1200);
-        r.setHeight(1200);
-        r.setArcWidth(1200);
-        r.setArcHeight(1200);
+        r.setX(-200);
+        r.setY(-200);
+        r.setWidth(1600);
+        r.setHeight(1600);
+        r.setArcWidth(1600);
+        r.setArcHeight(1600);
         r.setFill(Color.TRANSPARENT);
         r.setVisible(false);
 
@@ -297,7 +299,62 @@ public abstract class Menu {
         oknoStart.getChildren().add(btn001);
 
         ///////////koniec = okno start
+        
+          ///////////Poczatek = okno start2
+        Group oknoStart2 = new Group();
+        oknoStart2.setVisible(false);
+
+        oknoStart2.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart2.setLayoutX(300);
+        oknoStart2.setLayoutY(190);
+
+        Label Tytul2 = new Label("Usuwanie Towaru");
+        Tytul2.setLayoutX(150);
+        Tytul2.setLayoutY(10);
+        
+        Label wybr = new Label("Wybierz Towar Który chcesz usunąć");
+        wybr.setLayoutX(100);
+        wybr.setLayoutY(80);
+        
+        ChoiceBox cbox = new ChoiceBox(FXCollections.observableArrayList(
+    "First", "Second", "Third")
+);
+        cbox.setLayoutX(100);
+        cbox.setLayoutY(120);
+
+   Button btn002 = new Button();
+        btn002.setText("X");
+        btn002.setLayoutX(370);
+        btn002.setLayoutY(10);
+        btn002.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart2.setVisible(false);
+                 r.setVisible(false);
+            }
+        });
+        
+        Button btn003 = new Button();
+        btn003.setText("Usuń Towar");
+        btn003.setLayoutX(10);
+        btn003.setLayoutY(265);
+        btn003.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.print("Usunięto i chuj");
+            }
+        });
+
+        oknoStart2.getChildren().add(Tytul2);
+        oknoStart2.getChildren().add(wybr);
+        oknoStart2.getChildren().add(cbox);
+        oknoStart2.getChildren().add(btn003);
+        oknoStart2.getChildren().add(btn002);
+
+
+        ///////////koniec = okno start2
         //////////////////////////////////////////// 
+        
         root.getChildren().add(Lista);
         root.getChildren().add(Towary);
         root.getChildren().add(Info);
@@ -322,6 +379,7 @@ public abstract class Menu {
         root.getChildren().add(r);
         
        root.getChildren().add(oknoStart);
+         root.getChildren().add(oknoStart2);
         //////// WYKONANIE
 
         Listam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
@@ -392,7 +450,8 @@ public abstract class Menu {
 
         });
         Usuń.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
-            oknoStart.setVisible(true);
+            oknoStart2.setVisible(true);
+             r.setVisible(true);
         });
         Usuń.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
             ramka6.setVisible(false);
