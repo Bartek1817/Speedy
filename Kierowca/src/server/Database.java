@@ -5,10 +5,13 @@
  */
 package server;
 
+import dane.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,6 +119,146 @@ public class Database {
             st.close();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+    public static ArrayList<Zamowienie> readZamowienia()
+    {
+        ArrayList<Zamowienie> a = new ArrayList<Zamowienie>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zamowienia");
+            while(r.next())
+            {
+                a.add(new Zamowienie(r.getInt("id"), r.getInt("id_zlecenia"), r.getString("lokalizacja"), r.getInt("status")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Zamowienie readZamowienie(int id)
+    {
+        Zamowienie a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zamowienia WHERE id="+id);
+            while(r.next())
+            {
+                a = new Zamowienie(r.getInt("id"), r.getInt("id_zlecenia"), r.getString("lokalizacja"), r.getInt("status"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static ArrayList<Info> readInfo() {
+        ArrayList<Info> a = new ArrayList<Info>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Informacje");
+            while(r.next())
+            {
+                a.add(new Info(r.getInt("id"), r.getString("nazwa"), r.getString("wartosc")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Info readInfo(int id) {
+        Info a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Informacje WHERE id = "+id);
+            if(r.next())
+            {
+                a = new Info(r.getInt("id"), r.getString("nazwa"), r.getString("wartosc"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static boolean createZamowienie(Zamowienie a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Zamowienia");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Zamowienia VALUES ("+id+","+a.getIdZlecenia()+",'"+a.getLokalizacja()+"',"+a.getStatus()+")");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createInfo(Info a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Informacje");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Informacje VALUES ("+id+",'"+a.getNazwa()+"','"+a.getWartosc()+"')");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateZamownienie(Zamowienie a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Zamowienia SET id_zlecenia = "+a.getIdZlecenia()+", lokalizacja='"+a.getLokalizacja()+"', status="+a.getStatus()+" WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateInfo(Info a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Informacje SET nazwa = '"+a.getNazwa()+"', wartosc='"+a.getWartosc()+"' WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteZamowienie(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Zamowienia WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteInfo(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Informacje WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
         }
     }
 }
