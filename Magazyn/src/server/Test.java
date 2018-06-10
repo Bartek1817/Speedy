@@ -38,10 +38,47 @@ public class Test extends Application {
         Scene scene = new Scene(root, 300, 250);
         
         Database.polacz();
+        
+        /*//Test read
         for(Info t : Database.readInfo())
         {
             System.out.println(t.getId());
         }
+        */
+        
+        /*//Test create
+        Database.createInfo(new Info(0, "teścik", "testowa"));
+        Towar t = new Towar(0, "aaaa");
+        Database.createTowar(t);
+        Database.createMagazyn(new Magazyn(0, t, 20, 20));
+        Database.createZamowienie(new Zamowienie(0, 20, t, 20, 0));
+        */
+        
+        /*//Test update
+        Towar t = Database.readTowar(0);
+        t.setNazwa("xxx");
+        Database.updateTowar(t);
+        
+        Zamowienie z = Database.readZamowienie(0);
+        z.setIlosc(258);
+        Database.updateZamownienie(z);
+        
+        Magazyn m = Database.readMagazyn(0);
+        m.setRegal(80);
+        Database.updateMagazyn(m);
+        
+        Info i = Database.readInfo(0);
+        i.setNazwa("xxx");
+        Database.updateInfo(i);
+        */
+        
+        /*//Test delete
+        Database.deleteTowar(5);
+        Database.deleteMagazyn(0);
+        Database.deleteInfo(0);
+        Database.deleteZamowienie(0);
+        */
+        
         Database.zamknij();
         
         primaryStage.setTitle("Hello World!");

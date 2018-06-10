@@ -245,4 +245,160 @@ public class Database {
         }
         return a;
     }
+    public static boolean createTowar(Towar a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Towary");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Towary VALUES ("+id+",'"+a.getNazwa()+"')");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createZamowienie(Zamowienie a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Zamowienia");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Zamowienia VALUES ("+id+","+a.getIdZlecenia()+","+a.getTowar().getId()+","+a.getIlosc()+","+a.getStatus()+")");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createMagazyn(Magazyn a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Magazyn");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Magazyn VALUES ("+id+","+a.getTowar().getId()+","+a.getRegal()+","+a.getIlosc()+")");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createInfo(Info a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Informacje");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Informacje VALUES ("+id+",'"+a.getNazwa()+"','"+a.getWartosc()+"')");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateTowar(Towar a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Towary SET nazwa = '"+a.getNazwa()+"' WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateZamownienie(Zamowienie a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Zamowienia SET id_zlecenia = "+a.getIdZlecenia()+", id_towaru="+a.getTowar().getId()+", ilosc="+a.getIlosc()+", status="+a.getStatus()+" WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateMagazyn(Magazyn a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Magazyn SET id_towaru = "+a.getTowar().getId()+", regal="+a.getRegal()+", ilosc="+a.getIlosc()+" WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateInfo(Info a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Informacje SET nazwa = '"+a.getNazwa()+"', wartosc='"+a.getWartosc()+"' WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteTowar(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Towary WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteZamowienie(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Zamowienia WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteMagazyn(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Magazyn WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteInfo(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Informacje WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 }
