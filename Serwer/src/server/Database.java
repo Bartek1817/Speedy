@@ -5,10 +5,17 @@
  */
 package server;
 
+import dane.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +89,230 @@ public class Database {
             st.close();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+    
+    public static ArrayList<Zlecenie> readZlecenia()
+    {
+        ArrayList<Zlecenie> a = new ArrayList<Zlecenie>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zlecenia");
+            while(r.next())
+            {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                Date d = format.parse(r.getString("data"));
+                a.add(new Zlecenie(r.getInt("id"), d));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ParseException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return a;
+    }
+    public static Zlecenie readZlecenie(int id)
+    {
+        Zlecenie a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Zlecenia WHERE id="+id);
+            if(r.next())
+            {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                Date d = format.parse(r.getString("data"));
+                a = new Zlecenie(r.getInt("id"), d);
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ParseException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return a;
+    }
+    public static ArrayList<Lokacja> readLokacje()
+    {
+        ArrayList<Lokacja> a = new ArrayList<Lokacja>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Lokacje");
+            while(r.next())
+            {
+                a.add(new Lokacja(r.getInt("id"), r.getString("nazwa"), r.getString("typ"), r.getString("ip")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static Lokacja readLokacja(int id)
+    {
+        Lokacja a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Lokacje WHERE id="+id);
+            if(r.next())
+            {
+                a = new Lokacja(r.getInt("id"), r.getString("nazwa"), r.getString("typ"), r.getString("ip"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static ArrayList<User> readUserzy()
+    {
+        ArrayList<User> a = new ArrayList<User>();
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Userzy");
+            while(r.next())
+            {
+                a.add(new User(r.getInt("id"), r.getInt("numer"), r.getInt("haslo"), r.getString("imie"), r.getString("nazwisko"), r.getInt("poziom")));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static User readUser(int id)
+    {
+        User a = null;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Userzy WHERE id="+id);
+            if(r.next())
+            {
+                a = new User(r.getInt("id"), r.getInt("numer"), r.getInt("haslo"), r.getString("imie"), r.getString("nazwisko"), r.getInt("poziom"));
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    public static boolean createZlecenie(Zlecenie a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Zlecenia");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                st.executeUpdate("INSERT INTO Zlecenia VALUES ("+id+",'"+format.format(a.getData())+"')");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createLokacja(Lokacja a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Lokacje");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Lokacje VALUES ("+id+",'"+a.getNazwa()+"','"+a.getTyp()+"','"+a.getIp()+"')");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean createUser(User a) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT max(id) as max FROM Userzy");
+            int id;
+            if(r.next())
+            {
+                id = r.getInt("max")+1;
+                st.executeUpdate("INSERT INTO Userzy VALUES ("+id+","+a.getNumer()+","+a.getHaslo()+",'"+a.getImie()+"','"+a.getNazwiosko()+"',"+a.getPoziom()+")");
+            }
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateZlecenie(Zlecenie a) {
+        try {
+            Statement st = con.createStatement();
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            st.executeUpdate("UPDATE Zlecenia SET data = '"+format.format(a.getData())+"' WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateLokacja(Lokacja a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Lokacje SET nazwa = '"+a.getNazwa()+"',typ = '"+a.getTyp()+"',ip = '"+a.getIp()+"' WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean updateUser(User a) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE Userzy SET numer = "+a.getNumer()+",haslo = "+a.getHaslo()+",imie = '"+a.getImie()+"',nazwisko = '"+a.getNazwiosko()+"',poziom = "+a.getPoziom()+" WHERE id ="+a.getId()+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteZlecenie(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Zlecenia WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteLokacja(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Lokacje WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static boolean deleteUser(int id) {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM Userzy WHERE id ="+id+";");
+            st.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
         }
     }
 }
