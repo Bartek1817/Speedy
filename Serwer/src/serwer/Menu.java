@@ -9,7 +9,10 @@
  */
 package serwer;
 
+import dane.Lokacja;
+import dane.User;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,6 +24,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -30,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Database;
 
 public abstract class Menu {
 
@@ -215,49 +220,70 @@ public abstract class Menu {
 
         TableView tabela2 = new TableView();
         tabela2.setEditable(true);
+        
+        Database.polacz();
+        ObservableList<Lokacja> lok = FXCollections.observableArrayList();
+        lok.clear();
+        lok.addAll(Database.readLokacje());
+        tabela2.setItems(lok);
 
         TableColumn tab2 = new TableColumn("Lokacje");
         tab2.setPrefWidth(900);
         TableColumn ID_tab2 = new TableColumn("ID");
-        ID_tab2.setPrefWidth(900 / 3);
+        ID_tab2.setPrefWidth(900 / 4);
+         ID_tab2.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn Lokacje_nazwa = new TableColumn("Nazwa");
-        Lokacje_nazwa.setPrefWidth(900 / 3);
+        Lokacje_nazwa.setPrefWidth(900 / 4);
+         Lokacje_nazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         TableColumn Typ = new TableColumn("Typ");
-        Typ.setPrefWidth(900 / 3);
+        Typ.setPrefWidth(900 / 4);
+        Typ.setCellValueFactory(new PropertyValueFactory<>("typ"));
+          TableColumn IP = new TableColumn("IP");
+        IP.setPrefWidth(900 / 4);
+         IP.setCellValueFactory(new PropertyValueFactory<>("ip"));
 
-        tab2.getColumns().addAll(ID_tab2, Lokacje_nazwa, Typ);
+        tab2.getColumns().addAll(ID_tab2, Lokacje_nazwa, Typ, IP);
         tabela2.getColumns().addAll(tab2);
 
         //  -------------------------------
         TableView tabela3 = new TableView();
         tabela3.setEditable(true);
 
+        Database.polacz();
+        ObservableList<User> us = FXCollections.observableArrayList();
+        us.clear();
+        us.addAll(Database.readUserzy());
+        tabela3.setItems(us);
+
         TableColumn tab3 = new TableColumn("Użytkownicy");
         tab3.setPrefWidth(900);
         TableColumn IDUserzy = new TableColumn("Id");
-        IDUserzy.setPrefWidth(900 / 7);
+        IDUserzy.setPrefWidth(900 / 6);
+        IDUserzy.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn NR = new TableColumn("NR");
-        NR.setPrefWidth(900 / 7);
+        NR.setPrefWidth(900 / 6);
+        NR.setCellValueFactory(new PropertyValueFactory<>("numer"));
         TableColumn Imie = new TableColumn("Imie");
-        Imie.setPrefWidth(900 / 7);
+        Imie.setPrefWidth(900 / 6);
+        Imie.setCellValueFactory(new PropertyValueFactory<>("imie"));
         TableColumn Nazwisko = new TableColumn("Nazwisko");
-        Nazwisko.setPrefWidth(900 / 7);
-        TableColumn Stanowisko = new TableColumn("Stanowisko");
-        Stanowisko.setPrefWidth(900 / 7);
+        Nazwisko.setPrefWidth(900 / 6);
+        Nazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwiosko"));
         TableColumn Poziom = new TableColumn("Poziom");
-        Poziom.setPrefWidth(900 / 7);
-
+        Poziom.setPrefWidth(900 / 6);
+        Poziom.setCellValueFactory(new PropertyValueFactory<>("poziom"));
         TableColumn Hasło = new TableColumn("Hasło");
-        Hasło.setPrefWidth(900 / 7);
+        Hasło.setPrefWidth(900 / 6);
+        Hasło.setCellValueFactory(new PropertyValueFactory<>("haslo"));
 
-        tab3.getColumns().addAll(IDUserzy, NR, Imie, Nazwisko, Stanowisko, Poziom, Hasło);
+        tab3.getColumns().addAll(IDUserzy, NR, Imie, Nazwisko, Poziom, Hasło);
         tabela3.getColumns().addAll(tab3);
 
         ///////// ROOOT
         final VBox vbox = new VBox();
         vbox.setLayoutY(100);
         vbox.setLayoutX(210);
-        vbox.resize(900, 550);
+        vbox.resize(913, 550);
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().add(tabela1);
@@ -312,10 +338,6 @@ public abstract class Menu {
         hasłot.setLayoutX(10);
         hasłot.setLayoutY(130);
 
-        Label Stanol = new Label("Wybierz Stanowisko");
-        Stanol.setLayoutX(10);
-        Stanol.setLayoutY(150);
-
         ChoiceBox stanbox = new ChoiceBox(FXCollections.observableArrayList(
                 "First", "Second", "Third")
         );
@@ -362,7 +384,6 @@ public abstract class Menu {
         oknoStart.getChildren().add(Nazwiskol);
         oknoStart.getChildren().add(hasłol);
         oknoStart.getChildren().add(hasłot);
-        oknoStart.getChildren().add(Stanol);
         oknoStart.getChildren().add(stanbox);
         oknoStart.getChildren().add(Pozioml);
         oknoStart.getChildren().add(poziombox);
