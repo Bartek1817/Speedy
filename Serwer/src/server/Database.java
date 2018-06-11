@@ -315,4 +315,20 @@ public class Database {
             return false;
         }
     }
+    public static int login(int numer, int haslo)
+    {
+        int a = -1;
+        try {
+            Statement st = con.createStatement();
+            ResultSet r = st.executeQuery("SELECT * FROM Userzy WHERE numer="+numer+" AND haslo="+haslo);
+            if(r.next())
+            {
+                a = r.getInt("poziom");
+            }
+            st.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return a;
+    }
 }
