@@ -11,6 +11,8 @@ package serwer;
 
 import dane.Lokacja;
 import dane.User;
+import dane.Zlecenie;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -197,10 +199,17 @@ public abstract class Menu {
         TableView tabela1 = new TableView();
         tabela1.setEditable(true);
 
+        Database.polacz();
+        ObservableList<Zlecenie> zlec = FXCollections.observableArrayList();
+        zlec.clear();
+        zlec.addAll(Database.readZlecenia());
+        tabela1.setItems(zlec);
+
         TableColumn nazwa = new TableColumn("Lista Zleceń");
         nazwa.setPrefWidth(900);
         TableColumn ID = new TableColumn("Zlecenie ID");
         ID.setPrefWidth(900 / 7);
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn Magazyn = new TableColumn("Magazyn");
         Magazyn.setPrefWidth(900 / 7);
         TableColumn Status = new TableColumn("Status");
@@ -213,6 +222,7 @@ public abstract class Menu {
         Kierowca.setPrefWidth(900 / 7);
         TableColumn Data = new TableColumn("Data");
         Data.setPrefWidth(900 / 7);
+        Data.setCellValueFactory(new PropertyValueFactory<>("data"));
 
         nazwa.getColumns().addAll(ID, Magazyn, Status, Towar, Ilosc, Kierowca, Data);
         tabela1.getColumns().addAll(nazwa);
@@ -220,7 +230,7 @@ public abstract class Menu {
 
         TableView tabela2 = new TableView();
         tabela2.setEditable(true);
-        
+
         Database.polacz();
         ObservableList<Lokacja> lok = FXCollections.observableArrayList();
         lok.clear();
@@ -231,16 +241,16 @@ public abstract class Menu {
         tab2.setPrefWidth(900);
         TableColumn ID_tab2 = new TableColumn("ID");
         ID_tab2.setPrefWidth(900 / 4);
-         ID_tab2.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ID_tab2.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn Lokacje_nazwa = new TableColumn("Nazwa");
         Lokacje_nazwa.setPrefWidth(900 / 4);
-         Lokacje_nazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
+        Lokacje_nazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         TableColumn Typ = new TableColumn("Typ");
         Typ.setPrefWidth(900 / 4);
         Typ.setCellValueFactory(new PropertyValueFactory<>("typ"));
-          TableColumn IP = new TableColumn("IP");
+        TableColumn IP = new TableColumn("IP");
         IP.setPrefWidth(900 / 4);
-         IP.setCellValueFactory(new PropertyValueFactory<>("ip"));
+        IP.setCellValueFactory(new PropertyValueFactory<>("ip"));
 
         tab2.getColumns().addAll(ID_tab2, Lokacje_nazwa, Typ, IP);
         tabela2.getColumns().addAll(tab2);
@@ -313,7 +323,7 @@ public abstract class Menu {
 
         Label Imięl = new Label("Imię użytkownika");
         Imięl.setLayoutX(10);
-        Imięl.setLayoutY(30);
+        Imięl.setLayoutY(25);
 
         TextField Imięt = new TextField();
         Imięt.setText("Imię");
@@ -327,32 +337,50 @@ public abstract class Menu {
         TextField Nazwiskou = new TextField();
         Nazwiskou.setText("Nazwisko");
         Nazwiskou.setLayoutX(10);
-        Nazwiskou.setLayoutY(90);
+        Nazwiskou.setLayoutY(95);
 
-        Label hasłol = new Label("Hasło");
+        Label hasłol = new Label("Hasło (Liczbowy)");
         hasłol.setLayoutX(10);
-        hasłol.setLayoutY(110);
+        hasłol.setLayoutY(115);
 
         TextField hasłot = new TextField();
-        hasłot.setText("Hasło");
+        hasłot.setText("123");
         hasłot.setLayoutX(10);
-        hasłot.setLayoutY(130);
-
-        ChoiceBox stanbox = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
-        );
-        stanbox.setLayoutX(100);
-        stanbox.setLayoutY(170);
+        hasłot.setLayoutY(135);
 
         Label Pozioml = new Label("Wybierz Poziom");
         Pozioml.setLayoutX(10);
-        Pozioml.setLayoutY(190);
+        Pozioml.setLayoutY(160);
 
-        ChoiceBox poziombox = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
-        );
-        poziombox.setLayoutX(100);
-        poziombox.setLayoutY(210);
+        TextField Poziomt = new TextField();
+        Poziomt.setText("1");
+        Poziomt.setLayoutX(10);
+        Poziomt.setLayoutY(185);
+
+        Label numerl = new Label("Wpisz Numer");
+        numerl.setLayoutX(10);
+        numerl.setLayoutY(210);
+
+        TextField numert = new TextField();
+        numert.setText("1");
+        numert.setLayoutX(10);
+        numert.setLayoutY(235);
+
+        Label p1 = new Label();
+        p1.setText("Numer użytkownika sie powtarza wybierz inny numer");
+        p1.setLayoutX(200);
+        p1.setLayoutY(80);
+        p1.setVisible(false);
+        p1.setWrapText(true);
+        p1.setPrefWidth(100);
+
+        Label p2 = new Label();
+        p2.setText("Nie wszystkie pola są uzupełnione");
+        p2.setLayoutX(200);
+        p2.setLayoutY(80);
+        p2.setVisible(false);
+        p2.setWrapText(true);
+        p2.setPrefWidth(100);
 
         Button btn000 = new Button();
         btn000.setText("X");
@@ -373,7 +401,31 @@ public abstract class Menu {
         btn001.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.print("dodano i chuj");
+                p1.setVisible(false);
+                p2.setVisible(false);
+                if (Imięt.getText().equals("") || Nazwiskou.getText().equals("")
+                        || hasłot.getText().equals("") || Poziomt.getText().equals("")
+                        || numert.getText().equals("")) {
+                    p2.setVisible(true);
+                } else {
+                    Database.polacz();
+                    ArrayList<User> usr = Database.readUserzy();
+                    int pom = 0;
+                    for (User a : usr) {
+                        if (Integer.parseInt(numert.getText()) == a.getNumer()) {
+                            pom++;
+                            p1.setVisible(true);
+                        }
+                    }
+                    if (pom == 0) {
+                        User u = new User(0, Integer.parseInt(numert.getText()), Integer.parseInt(hasłot.getText()), Imięt.getText(), Nazwiskou.getText(), Integer.parseInt(Poziomt.getText()));
+                        Database.createUser(u);
+                        Database.zamknij();
+                        root.getChildren().clear();
+                        Menu.menu(root, primaryStage);
+                    }
+                    Database.zamknij();
+                }
             }
         });
 
@@ -384,9 +436,12 @@ public abstract class Menu {
         oknoStart.getChildren().add(Nazwiskol);
         oknoStart.getChildren().add(hasłol);
         oknoStart.getChildren().add(hasłot);
-        oknoStart.getChildren().add(stanbox);
+        oknoStart.getChildren().add(Poziomt);
         oknoStart.getChildren().add(Pozioml);
-        oknoStart.getChildren().add(poziombox);
+        oknoStart.getChildren().add(numert);
+        oknoStart.getChildren().add(numerl);
+        oknoStart.getChildren().add(p1);
+        oknoStart.getChildren().add(p2);
         oknoStart.getChildren().add(btn000);
         oknoStart.getChildren().add(btn001);
 
@@ -407,10 +462,18 @@ public abstract class Menu {
         wybr.setLayoutX(100);
         wybr.setLayoutY(80);
 
-        ChoiceBox cbox = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
+        Database.polacz();
+        ArrayList<User> usr2 = Database.readUserzy();
+        ObservableList<String> data = FXCollections.observableArrayList();
+        data.clear();
+        for (User a : usr2) {
+            data.add(a.getImie() + " " + a.getImie() + " NUMER: " + a.getNumer());
+        }
+        Database.zamknij();
+
+        ChoiceBox cbox = new ChoiceBox(FXCollections.observableArrayList(data)
         );
-        cbox.setLayoutX(100);
+        cbox.setLayoutX(50);
         cbox.setLayoutY(120);
 
         Button btn002 = new Button();
@@ -426,13 +489,23 @@ public abstract class Menu {
         });
 
         Button btn003 = new Button();
-        btn003.setText("Usuń Towar");
+        btn003.setText("Usuń Usera");
         btn003.setLayoutX(10);
         btn003.setLayoutY(265);
         btn003.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.print("Usunięto i chuj");
+                for (User a : usr2) {
+                    String s = a.getImie() + " " + a.getImie() + " NUMER: " + a.getNumer();
+                    if (s.equals(cbox.getValue().toString())) {
+                        System.out.println("Usunieto " + s);
+                        Database.polacz();
+                        Database.deleteUser(a.getId());
+                        Database.zamknij();
+                        root.getChildren().clear();
+                        Menu.menu(root, primaryStage);
+                    }
+                }
             }
         });
 
@@ -468,10 +541,13 @@ public abstract class Menu {
         Typ2.setLayoutX(10);
         Typ2.setLayoutY(80);
 
-        TextField Typ2t = new TextField();
-        Typ2t.setText("Typ");
-        Typ2t.setLayoutX(10);
-        Typ2t.setLayoutY(100);
+        ChoiceBox cbox6 = new ChoiceBox(FXCollections.observableArrayList(
+                "Magazyn", "Samochód")
+        );
+
+        cbox6.setLayoutX(10);
+        cbox6.setLayoutY(100);
+        cbox6.setValue("Magazyn");
 
         Label IPLokalizacji = new Label("IP Lokacji");
         IPLokalizacji.setLayoutX(10);
@@ -501,7 +577,18 @@ public abstract class Menu {
         btn005.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.print("dodano i chuj");
+                p2.setVisible(false);
+                if (Lokalt.getText().equals("") || cbox6.getValue().equals("")
+                        || IPLokalizacjit.getText().equals("")) {
+                    p2.setVisible(true);
+                } else {
+                    Database.polacz();
+                    Lokacja l = new Lokacja(0, Lokalt.getText(), cbox6.getValue().toString(), IPLokalizacjit.getText());
+                    Database.createLokacja(l);
+                    Database.zamknij();
+                    root.getChildren().clear();
+                    Menu.menu(root, primaryStage);
+                }
             }
         });
 
@@ -509,7 +596,8 @@ public abstract class Menu {
         oknoStart3.getChildren().add(Lokal);
         oknoStart3.getChildren().add(Lokalt);
         oknoStart3.getChildren().add(Typ2);
-        oknoStart3.getChildren().add(Typ2t);
+        oknoStart3.getChildren().add(cbox6);
+        oknoStart3.getChildren().add(p2);
         oknoStart3.getChildren().add(IPLokalizacji);
         oknoStart3.getChildren().add(IPLokalizacjit);
         oknoStart3.getChildren().add(btn004);
@@ -528,12 +616,21 @@ public abstract class Menu {
         Tytul4.setLayoutX(150);
         Tytul4.setLayoutY(10);
 
-        Label wybr4 = new Label("Wybierz którą Lokacjię chcesz usunąć");
+        Label wybr4 = new Label("Wybierz którą Lokację chcesz usunąć");
         wybr4.setLayoutX(100);
         wybr4.setLayoutY(80);
 
+        Database.polacz();
+        ArrayList<Lokacja> l1 = Database.readLokacje();
+        ObservableList<String> data3 = FXCollections.observableArrayList();
+        data.clear();
+        for (Lokacja a : l1) {
+            data3.add(a.getId() + " " + a.getNazwa() + " " + a.getTyp() + " " + a.getIp());
+        }
+        Database.zamknij();
+
         ChoiceBox cbox3 = new ChoiceBox(FXCollections.observableArrayList(
-                "First", "Second", "Third")
+                data3)
         );
         cbox3.setLayoutX(100);
         cbox3.setLayoutY(120);
@@ -551,13 +648,23 @@ public abstract class Menu {
         });
 
         Button btn007 = new Button();
-        btn007.setText("Usuń Lokacjię");
+        btn007.setText("Usuń Lokację");
         btn007.setLayoutX(10);
         btn007.setLayoutY(265);
         btn007.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.print("Usunięto i chuj");
+                for (Lokacja a : l1) {
+                    String s =a.getId() + " " +  a.getNazwa() + " " + a.getTyp() + " " + a.getIp();
+                    if (s.equals(cbox3.getValue().toString())) {
+                        System.out.println("Usunieto " + s);
+                        Database.polacz();
+                        Database.deleteLokacja(a.getId());
+                        Database.zamknij();
+                        root.getChildren().clear();
+                        Menu.menu(root, primaryStage);
+                    }
+                }
             }
         });
 
