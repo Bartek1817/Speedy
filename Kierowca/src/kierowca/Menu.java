@@ -9,9 +9,14 @@
  */
 package kierowca;
 
+import dane.Info;
+import dane.Zamowienie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Database;
 
 public abstract class Menu {
 
@@ -96,35 +102,53 @@ public abstract class Menu {
         cb.setLayoutX(1000);
         ///////// TABLE
 
-        TableView tabela1 = new TableView();
+       TableView tabela1 = new TableView();
         tabela1.setEditable(true);
 
-        TableColumn tab1 = new TableColumn("Lista Zamówenia");
+        Database.polacz();
+        ObservableList<Zamowienie> zam = FXCollections.observableArrayList();
+        zam.clear();
+        zam.addAll(Database.readZamowienia());
+        tabela1.setItems(zam);
+
+        TableColumn tab1 = new TableColumn("Lista Zamówień");
         tab1.setPrefWidth(900);
-        TableColumn ID = new TableColumn("Zlecenie ID");
+        TableColumn ID = new TableColumn("Zamówienie ID");
         ID.setPrefWidth(900 / 4);
-        TableColumn Magazyn = new TableColumn("Magazyn");
-        Magazyn.setPrefWidth(900 / 4);
-        TableColumn Status = new TableColumn("Status");
-        Status.setPrefWidth(900 / 4);
-        TableColumn Data = new TableColumn("Data");
-        Data.setPrefWidth(900 / 4);
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn IDZ = new TableColumn("Zlecenie ID");
+        IDZ.setPrefWidth(900 / 4);
+        IDZ.setCellValueFactory(new PropertyValueFactory<>("idZlecenia"));
+        TableColumn Towar = new TableColumn("Lokalizacja");
+        Towar.setPrefWidth(900 / 4);
+        Towar.setCellValueFactory(new PropertyValueFactory<>("lokalizacja"));
+        TableColumn Kierowca = new TableColumn("Status");
+        Kierowca.setPrefWidth(900 / 4);
+        Kierowca.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        tab1.getColumns().addAll(ID, Magazyn, Status, Data);
+        tab1.getColumns().addAll(ID, IDZ, Towar, Kierowca);
         tabela1.getColumns().addAll(tab1);
-
         //  -------------------------------
-        TableView tabela2 = new TableView();
+          TableView tabela2 = new TableView();
         tabela2.setEditable(true);
+
+        Database.polacz();
+        ObservableList<Info> info = FXCollections.observableArrayList();
+        info.clear();
+        info.addAll(Database.readInfo());
+        tabela2.setItems(info);
 
         TableColumn tab2 = new TableColumn("Informacje");
         tab2.setPrefWidth(900);
         TableColumn ID_tab2 = new TableColumn("ID");
         ID_tab2.setPrefWidth(900 / 3);
+        ID_tab2.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn Magazyn_nazwa = new TableColumn("Nazwa");
         Magazyn_nazwa.setPrefWidth(900 / 3);
+        Magazyn_nazwa.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         TableColumn Status_wartosc = new TableColumn("Wartość");
         Status_wartosc.setPrefWidth(900 / 3);
+        Status_wartosc.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
 
         tab2.getColumns().addAll(ID_tab2, Magazyn_nazwa, Status_wartosc);
         tabela2.getColumns().addAll(tab2);
@@ -133,7 +157,7 @@ public abstract class Menu {
         final VBox vbox = new VBox();
         vbox.setLayoutY(100);
         vbox.setLayoutX(210);
-        vbox.resize(900, 550);
+        vbox.resize(915, 550);
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().add(tabela1);
