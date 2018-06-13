@@ -5,11 +5,17 @@
  */
 package dane;
 
+import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 /**
  *
  * @author Arekl
  */
-public class Lokacja {
+public class Lokacja implements Serializable{
+    private static final long serialVersionUID = 110L;
     int id;
     String nazwa;
     String typ;

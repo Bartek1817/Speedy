@@ -5,11 +5,13 @@
  */
 package server;
 
+import dane.*;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -114,10 +116,41 @@ public class test2 extends Application {
                         return null;
                     }
                 };
+                Task task3 = new Task<Void>() {//nowy wątek
+                    @Override
+                    public Void call() {
+                        try {
+                            Socket socket = new Socket("127.0.0.1", 1100);
+                            socket.setTcpNoDelay(true);
+                            OutputStream outputStream = socket.getOutputStream();
+                            InputStream inputStream = socket.getInputStream();
+                            ObjectInputStream objInputStream = null;
+                            
+                            //wysyłanie pierwszego obiektu - polecenie login
+                            ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                            objOutputStream.writeObject("getLokacje");
+                            objOutputStream.flush();
+                            updateProgress(1, 2);//progres (obecny, max)
+
+                            Thread.sleep(500);//uśpienie, żeby było widać progres
+
+                            //odbieranie obiektu - lista lokacji
+                            objInputStream = new ObjectInputStream(inputStream);
+                            ArrayList<Lokacja> lokacje = (ArrayList<Lokacja>) objInputStream.readObject();
+                            for(Lokacja l : lokacje)
+                                System.out.println(l.getNazwa());
+                            updateProgress(2, 2);//progres (obecny, max)
+                            socket.close();
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                        return null;
+                    }
+                };
                 //bar.progressProperty().bind(task.progressProperty());
                 //new Thread(task).start();
-                bar.progressProperty().bind(task2.progressProperty());
-                new Thread(task2).start();
+                bar.progressProperty().bind(task3.progressProperty());
+                new Thread(task3).start();
 
             }
             

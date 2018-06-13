@@ -5,6 +5,7 @@
  */
 package server;
 
+import dane.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,6 +54,15 @@ public class ApiThread extends Thread {
                     OutputStream outputStream = mySocket.getOutputStream();
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
                     objOutputStream.writeObject(poziom);
+                    objOutputStream.flush();
+                }
+                if(option.equalsIgnoreCase("getLokacje"))
+                {
+                    System.out.println(option);
+                    ArrayList<Lokacja> lokacje = Database.readLokacje();
+                    OutputStream outputStream = mySocket.getOutputStream();
+                    ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject(lokacje);
                     objOutputStream.flush();
                 }
                 Database.zamknij();
