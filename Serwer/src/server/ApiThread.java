@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ApiThread extends Thread {
             if (mySocket.getLocalPort() == 1100) {
                 Database.polacz();
                 InputStream inputStream = mySocket.getInputStream();
+                OutputStream outputStream = null;
                 ObjectInputStream objInputStream = null;
                 objInputStream = new ObjectInputStream(inputStream);
                 String option = (String) objInputStream.readObject();
@@ -51,7 +53,7 @@ public class ApiThread extends Thread {
                     objInputStream = new ObjectInputStream(inputStream);
                     String haslo = (String) objInputStream.readObject();
                     int poziom = Database.login(Integer.parseInt(numer), Integer.parseInt(haslo));
-                    OutputStream outputStream = mySocket.getOutputStream();
+                    outputStream = mySocket.getOutputStream();
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
                     objOutputStream.writeObject(poziom);
                     objOutputStream.flush();
@@ -60,9 +62,41 @@ public class ApiThread extends Thread {
                 {
                     System.out.println(option);
                     ArrayList<Lokacja> lokacje = Database.readLokacje();
-                    OutputStream outputStream = mySocket.getOutputStream();
+                    outputStream = mySocket.getOutputStream();
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
                     objOutputStream.writeObject(lokacje);
+                    objOutputStream.flush();
+                }
+                if(option.equalsIgnoreCase("getZlecenia"))
+                {
+                    System.out.println(option);
+                    ArrayList<Zlecenie> zlecenia = Database.readZlecenia();
+                    outputStream = mySocket.getOutputStream();
+                    ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject(zlecenia.size());
+                    objOutputStream.flush();
+                    for(int i = 0; i<zlecenia.size();i++)
+                    {
+                        System.out.println(i+":"+zlecenia.get(i).getId());
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(zlecenia.get(i).getId());
+                        objOutputStream.flush();
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(zlecenia.get(i).getData());
+                        objOutputStream.flush();
+                    }
+                }
+                if(option.equalsIgnoreCase("addZlecenie"))
+                {
+                    System.out.println(option);
+                    objInputStream = new ObjectInputStream(inputStream);
+                    Date data = (Date) objInputStream.readObject();
+                    Zlecenie z = new Zlecenie(0, data);
+                    boolean b = Database.createZlecenie(z);
+                    
+                    outputStream = mySocket.getOutputStream();
+                    ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject(b);
                     objOutputStream.flush();
                 }
                 Database.zamknij();

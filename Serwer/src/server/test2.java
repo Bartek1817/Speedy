@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -147,10 +148,79 @@ public class test2 extends Application {
                         return null;
                     }
                 };
+                Task task4 = new Task<Void>() {//nowy wątek
+                    @Override
+                    public Void call() {
+                        try {
+                            Socket socket = new Socket("127.0.0.1", 1100);
+                            socket.setTcpNoDelay(true);
+                            OutputStream outputStream = socket.getOutputStream();
+                            InputStream inputStream = socket.getInputStream();
+                            ObjectInputStream objInputStream = null;
+                            
+                            //wysyłanie pierwszego obiektu - polecenie login
+                            ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                            objOutputStream.writeObject("getZlecenia");
+                            objOutputStream.flush();
+                            updateProgress(1, 3);//progres (obecny, max)
+
+                            Thread.sleep(500);//uśpienie, żeby było widać progres
+
+                            //odbieranie obiektu - lista lokacji
+                            objInputStream = new ObjectInputStream(inputStream);
+                            int ilosc = (int) objInputStream.readObject();
+                            updateProgress(2, 4);//progres (obecny, max)
+                            for(int i = 0;i<ilosc;i++)
+                            {
+                                Thread.sleep(500);//uśpienie, żeby było widać progres
+                                objInputStream = new ObjectInputStream(inputStream);
+                                int id = (int) objInputStream.readObject();
+                                objInputStream = new ObjectInputStream(inputStream);
+                                Date date = (Date) objInputStream.readObject();
+                                System.out.println(id);
+                                updateProgress(ilosc+i, ilosc+ilosc);//progres (obecny, max)
+                            }
+                            updateProgress(1, 1);//progres (obecny, max)
+                            socket.close();
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                        return null;
+                    }
+                };
+                Task task5 = new Task<Void>() {//nowy wątek
+                    @Override
+                    public Void call() {
+                        try {
+                            Socket socket = new Socket("127.0.0.1", 1100);
+                            socket.setTcpNoDelay(true);
+                            OutputStream outputStream = socket.getOutputStream();
+                            InputStream inputStream = socket.getInputStream();
+                            ObjectInputStream objInputStream = null;
+                            
+                            //wysyłanie pierwszego obiektu - polecenie login
+                            ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                            objOutputStream.writeObject("addZlecenie");
+                            objOutputStream.flush();
+                            updateProgress(1, 2);//progres (obecny, max)
+
+                            Thread.sleep(500);//uśpienie, żeby było widać progres
+
+                            objOutputStream = new ObjectOutputStream(outputStream);
+                            objOutputStream.writeObject(new Date());
+                            objOutputStream.flush();
+                            updateProgress(2, 2);//progres (obecny, max)
+                            socket.close();
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                        return null;
+                    }
+                };
                 //bar.progressProperty().bind(task.progressProperty());
                 //new Thread(task).start();
-                bar.progressProperty().bind(task2.progressProperty());
-                new Thread(task2).start();
+                bar.progressProperty().bind(task5.progressProperty());
+                new Thread(task5).start();
 
             }
             
