@@ -28,6 +28,8 @@ public class Test extends Application {
             
             @Override
             public void handle(ActionEvent event) {
+                Api test = new Api(1101);
+                test.start();
                 System.out.println("Hello World!");
             }
         });
