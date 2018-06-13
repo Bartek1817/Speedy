@@ -90,7 +90,7 @@ public class test2 extends Application {
 
                             //wysyłanie drugiego obiektu - numer
                             objOutputStream = new ObjectOutputStream(outputStream);
-                            objOutputStream.writeObject("1111");
+                            objOutputStream.writeObject("3333");
                             objOutputStream.flush();
                             updateProgress(2, 4);//progres (obecny, max)
 
@@ -98,7 +98,7 @@ public class test2 extends Application {
 
                             //wysyłanie trzeciego obiektu - haslo
                             objOutputStream = new ObjectOutputStream(outputStream);
-                            objOutputStream.writeObject("1111");
+                            objOutputStream.writeObject("3333");
                             objOutputStream.flush();
                             updateProgress(3, 4);//progres (obecny, max)
 
@@ -149,8 +149,8 @@ public class test2 extends Application {
                 };
                 //bar.progressProperty().bind(task.progressProperty());
                 //new Thread(task).start();
-                bar.progressProperty().bind(task3.progressProperty());
-                new Thread(task3).start();
+                bar.progressProperty().bind(task2.progressProperty());
+                new Thread(task2).start();
 
             }
             

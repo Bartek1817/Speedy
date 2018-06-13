@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Database;
 
 public abstract class Logowanie {
 
@@ -106,41 +107,36 @@ public abstract class Logowanie {
 
         Zaloguj.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             try {
-                try {
-
-                } catch (Exception w) {
-                    System.err.println(w);
-                    System.out.println("666");
-                }
-               
-                   Socket socket = new Socket("127.0.0.1", 1100);
+                //tylko na serwerze
+                Database.polacz();
+                int poziom = Database.login(Integer.parseInt(login.getText()), Integer.parseInt(password.getText()));
+                Database.zamknij();
+                
+                /*
+                //inne
+                Socket socket = new Socket("127.0.0.1", 1100);
                 socket.setTcpNoDelay(true);
                 OutputStream outputStream = socket.getOutputStream();
                 InputStream inputStream = socket.getInputStream();
                 ObjectInputStream objInputStream = null;
-System.out.println("1");
-                //wysyłanie pierwszego obiektu - polecenie login
+                
                 ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
                 objOutputStream.writeObject("login");
                 objOutputStream.flush();
-System.out.println("2");
-                //wysyłanie drugiego obiektu - numer
+                
                 objOutputStream = new ObjectOutputStream(outputStream);
                 objOutputStream.writeObject(login.getText());
                 objOutputStream.flush();
-System.out.println("3");
-                //wysyłanie trzeciego obiektu - haslo
+                
                 objOutputStream = new ObjectOutputStream(outputStream);
                 objOutputStream.writeObject(password.getText());
                 objOutputStream.flush();
-System.out.println("4");
-                //odbieranie obiektu - poziom usera
+                
                 objInputStream = new ObjectInputStream(inputStream);
                 int poziom = (int) objInputStream.readObject();
                 System.out.println(poziom);
-System.out.println("5");
                 socket.close();
-
+                */
                 if (poziom == 0 || poziom == 1 || poziom == 2 || poziom == 3 || poziom == 4 || poziom == 5) {
                     error.setVisible(false);
                     root.getChildren().clear();
@@ -148,9 +144,6 @@ System.out.println("5");
                 } else {
                     error.setVisible(true);
                 }
-
-
-               
             } catch (Exception z) {
                 // TODO Auto-generated catch block
                 z.printStackTrace();
@@ -166,52 +159,52 @@ System.out.println("5");
 
         });
 
-                Task task2 = new Task<Void>() {//nowy wątek
-                    @Override
-                    public Void call() {
-                        try {
-                            Socket socket = new Socket("127.0.0.1", 1100);
-                            socket.setTcpNoDelay(true);
-                            OutputStream outputStream = socket.getOutputStream();
-                            InputStream inputStream = socket.getInputStream();
-                            ObjectInputStream objInputStream = null;
-                            
-                            //wysyłanie pierwszego obiektu - polecenie login
-                            ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
-                            objOutputStream.writeObject("login");
-                            objOutputStream.flush();
-                            updateProgress(1, 4);//progres (obecny, max)
+        Task task2 = new Task<Void>() {//nowy wątek
+            @Override
+            public Void call() {
+                try {
+                    Socket socket = new Socket("127.0.0.1", 1100);
+                    socket.setTcpNoDelay(true);
+                    OutputStream outputStream = socket.getOutputStream();
+                    InputStream inputStream = socket.getInputStream();
+                    ObjectInputStream objInputStream = null;
 
-                            Thread.sleep(500);//uśpienie, żeby było widać progres
+                    //wysyłanie pierwszego obiektu - polecenie login
+                    ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject("login");
+                    objOutputStream.flush();
+                    updateProgress(1, 4);//progres (obecny, max)
 
-                            //wysyłanie drugiego obiektu - numer
-                            objOutputStream = new ObjectOutputStream(outputStream);
-                            objOutputStream.writeObject("1111");
-                            objOutputStream.flush();
-                            updateProgress(2, 4);//progres (obecny, max)
+                    Thread.sleep(500);//uśpienie, żeby było widać progres
 
-                            Thread.sleep(500);//uśpienie, żeby było widać progres
+                    //wysyłanie drugiego obiektu - numer
+                    objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject("1111");
+                    objOutputStream.flush();
+                    updateProgress(2, 4);//progres (obecny, max)
 
-                            //wysyłanie trzeciego obiektu - haslo
-                            objOutputStream = new ObjectOutputStream(outputStream);
-                            objOutputStream.writeObject("1111");
-                            objOutputStream.flush();
-                            updateProgress(3, 4);//progres (obecny, max)
+                    Thread.sleep(500);//uśpienie, żeby było widać progres
 
-                            Thread.sleep(500);//uśpienie, żeby było widać progres
+                    //wysyłanie trzeciego obiektu - haslo
+                    objOutputStream = new ObjectOutputStream(outputStream);
+                    objOutputStream.writeObject("1111");
+                    objOutputStream.flush();
+                    updateProgress(3, 4);//progres (obecny, max)
 
-                            //odbieranie obiektu - poziom usera
-                            objInputStream = new ObjectInputStream(inputStream);
-                            int poziom = (int) objInputStream.readObject();
-                            System.out.println(poziom);
-                            updateProgress(4, 4);//progres (obecny, max)
-                            socket.close();
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
-                        return null;
-                    }
-                };
+                    Thread.sleep(500);//uśpienie, żeby było widać progres
+
+                    //odbieranie obiektu - poziom usera
+                    objInputStream = new ObjectInputStream(inputStream);
+                    int poziom = (int) objInputStream.readObject();
+                    System.out.println(poziom);
+                    updateProgress(4, 4);//progres (obecny, max)
+                    socket.close();
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+                return null;
+            }
+        };
     }
 
 }
