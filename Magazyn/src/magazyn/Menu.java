@@ -97,6 +97,14 @@ public abstract class Menu {
         ramka6.setFitHeight(35);
         ramka6.setFitWidth(125);
         ramka6.setVisible(false);
+
+        ImageView ramka7 = new ImageView("file:ramka.png");
+        ramka7.setLayoutX(570);
+        ramka7.setLayoutY(560);
+        ramka7.setFitHeight(35);
+        ramka7.setFitWidth(125);
+        ramka7.setVisible(false);
+
         ///////// TEXT
         Text Towary = new Text("Lista Towarów");
         Towary.setStyle("-fx-font-size: 40pt;");
@@ -176,6 +184,14 @@ public abstract class Menu {
         Usuń.setPickOnBounds(true);
         Usuń.setVisible(false);
 
+        Text EdytujWpis = new Text("Edytuj Wpis");
+        EdytujWpis.setStyle("-fx-font-size: 12pt;");
+        EdytujWpis.setFill(Color.WHITE);
+        EdytujWpis.setLayoutY(580);
+        EdytujWpis.setLayoutX(580);
+        EdytujWpis.setPickOnBounds(true);
+        EdytujWpis.setVisible(false);
+
         Text Dodajt = new Text("Dodaj Towar");
         Dodajt.setStyle("-fx-font-size: 12pt;");
         Dodajt.setFill(Color.WHITE);
@@ -191,6 +207,14 @@ public abstract class Menu {
         Usuńt.setLayoutX(435);
         Usuńt.setPickOnBounds(true);
         Usuńt.setVisible(false);
+
+        Text Edytut = new Text("Edytuj Towar");
+        Edytut.setStyle("-fx-font-size: 12pt;");
+        Edytut.setFill(Color.WHITE);
+        Edytut.setLayoutY(580);
+        Edytut.setLayoutX(580);
+        Edytut.setPickOnBounds(true);
+        Edytut.setVisible(false);
 
         Text cb = new Text("Aplication Speedy create by: AL && BŻ");
         cb.setStyle("-fx-font-size: 10pt;");
@@ -649,7 +673,369 @@ public abstract class Menu {
         oknoStart4.getChildren().add(btn006);
         oknoStart4.getChildren().add(btn007);
 
-        ///////////koniec = okno start4
+        ///////////koniec = okno start5
+        ///////////Poczatek = okno start3
+        Group oknoStart5 = new Group();
+        oknoStart5.setVisible(false);
+
+        oknoStart5.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart5.setLayoutX(300);
+        oknoStart5.setLayoutY(190);
+
+        Label Tytul5 = new Label("Edytowanie Towaru");
+        Tytul5.setLayoutX(150);
+        Tytul5.setLayoutY(10);
+
+        Label wybr5 = new Label("Wybierz Towar który chcesz edytować");
+        wybr5.setLayoutX(100);
+        wybr5.setLayoutY(80);
+
+        Label kom5 = new Label("Wybrana nazwa jest już zajęta ");
+        kom5.setLayoutX(100);
+        kom5.setLayoutY(30);
+        kom5.setVisible(false);
+
+        Label wart1 = new Label("ID");
+        wart1.setLayoutX(60);
+        wart1.setLayoutY(145);
+        wart1.setVisible(false);
+
+        TextField wart2 = new TextField("Nazwa");
+        wart2.setLayoutX(120);
+        wart2.setLayoutY(140);
+        wart2.setVisible(false);
+
+        Label nwart1 = new Label("ID");
+        nwart1.setLayoutX(60);
+        nwart1.setLayoutY(125);
+        nwart1.setVisible(false);
+
+        Label nwart2 = new Label("Nazwa");
+        nwart2.setLayoutX(120);
+        nwart2.setLayoutY(125);
+        nwart2.setVisible(false);
+
+        Database.polacz();
+
+        data.clear();
+        for (Towar a : towary) {
+            data.add(a.getNazwa());
+        }
+        Database.zamknij();
+        ChoiceBox tbox5 = new ChoiceBox(data);
+
+        tbox5.setLayoutX(100);
+        tbox5.setLayoutY(100);
+
+        Button btn055 = new Button();
+        btn055.setText("X");
+        btn055.setLayoutX(370);
+        btn055.setLayoutY(10);
+        btn055.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart5.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn057 = new Button();
+        btn057.setText("Powrót");
+        btn057.setLayoutX(10);
+        btn057.setLayoutY(265);
+        btn057.setVisible(false);
+
+        Button btn056 = new Button();
+        btn056.setText("Edytuj Wybrany Towar");
+        btn056.setLayoutX(10);
+        btn056.setLayoutY(265);
+
+        Button btn058 = new Button();
+        btn058.setText("Edytuj");
+        btn058.setLayoutX(10);
+        btn058.setLayoutY(235);
+        btn058.setVisible(false);
+
+        btn058.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                int pom = 0;
+                Database.polacz();
+                for (Towar a : towary) {
+                    if (a.getNazwa().equals(wart2.getText())) {
+                        pom++;
+                    }
+                }
+                if (pom == 0) // nie powtarza siewa
+                {
+                    Towar t = new Towar(Integer.parseInt(wart1.getText()), wart2.getText());
+                    Database.updateTowar(t);
+                    Database.zamknij();
+                    root.getChildren().clear();
+                    Menu.menu(root, primaryStage);
+
+                } else {
+                    kom5.setVisible(true);
+                    Database.zamknij();
+                }
+
+            }
+        });
+
+        btn056.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                Database.polacz();
+                btn056.setVisible(false);
+                btn057.setVisible(true);
+                btn058.setVisible(true);
+                tbox5.setVisible(false);
+                wybr5.setVisible(false);
+                wart1.setVisible(true);
+                wart2.setVisible(true);
+                nwart1.setVisible(true);
+                nwart2.setVisible(true);
+                for (Towar a : towary) {
+                    if (a.getNazwa().equals(tbox5.getValue().toString())) {
+
+                        wart1.setText(Integer.toString(a.getId()));
+                        wart2.setText(a.getNazwa());
+                    }
+                }
+                Database.zamknij();
+
+            }
+        });
+
+        btn057.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                btn056.setVisible(true);
+                btn057.setVisible(false);
+                btn058.setVisible(false);
+                tbox5.setVisible(true);
+                wybr5.setVisible(true);
+                wart1.setVisible(false);
+                wart2.setVisible(false);
+                nwart1.setVisible(false);
+                nwart2.setVisible(false);
+            }
+        });
+
+        oknoStart5.getChildren().add(Tytul5);
+        oknoStart5.getChildren().add(wybr5);
+        oknoStart5.getChildren().add(kom5);
+        oknoStart5.getChildren().add(tbox5);
+        oknoStart5.getChildren().add(btn055);
+        oknoStart5.getChildren().add(btn056);
+        oknoStart5.getChildren().add(btn057);
+        oknoStart5.getChildren().add(btn058);
+        oknoStart5.getChildren().add(wart1);
+        oknoStart5.getChildren().add(wart2);
+        oknoStart5.getChildren().add(nwart1);
+        oknoStart5.getChildren().add(nwart2);
+
+        ///////////koniec = okno start5
+        ///////////Poczatek = okno start6
+        Group oknoStart6 = new Group();
+        oknoStart6.setVisible(false);
+
+        oknoStart6.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart6.setLayoutX(300);
+        oknoStart6.setLayoutY(190);
+
+        Label Tytul6 = new Label("Edytowanie Wpisu");
+        Tytul6.setLayoutX(150);
+        Tytul6.setLayoutY(10);
+
+        Label wybr6 = new Label("Wybierz Wpis który chcesz edytować");
+        wybr6.setLayoutX(100);
+        wybr6.setLayoutY(80);
+
+        Label kom6 = new Label("Wybrana nazwa jest już zajęta ");
+        kom6.setLayoutX(100);
+        kom6.setLayoutY(30);
+        kom6.setVisible(false);
+
+        Label wart11 = new Label("ID");
+        wart11.setLayoutX(30);
+        wart11.setLayoutY(145);
+        wart11.setVisible(false);
+
+        ChoiceBox wart22 = new ChoiceBox(data);
+        wart22.setLayoutX(60);
+        wart22.setLayoutY(140);
+        wart22.setVisible(false);
+
+        TextField wart33 = new TextField("Regał");
+        wart33.setLayoutX(150);
+        wart33.setLayoutY(140);
+        wart33.setVisible(false);
+
+        TextField wart44 = new TextField("Ilość");
+        wart44.setLayoutX(210);
+        wart44.setLayoutY(140);
+        wart44.setVisible(false);
+
+        Label nwart11 = new Label("ID");
+        nwart11.setLayoutX(30);
+        nwart11.setLayoutY(125);
+        nwart11.setVisible(false);
+
+        Label nwart22 = new Label("Towar");
+        nwart22.setLayoutX(50);
+        nwart22.setLayoutY(125);
+        nwart22.setVisible(false);
+
+        Label nwart33 = new Label("Regał");
+        nwart33.setLayoutX(150);
+        nwart33.setLayoutY(125);
+        nwart33.setVisible(false);
+
+        Label nwart44 = new Label("Ilość");
+        nwart44.setLayoutX(210);
+        nwart44.setLayoutY(125);
+        nwart44.setVisible(false);
+
+        Database.polacz();
+        ArrayList<Magazyn> l1 = Database.readMagazyny();
+        ObservableList<String> data3 = FXCollections.observableArrayList();
+        for (Magazyn a : l1) {
+            data3.add(a.getId() + " Towar " + a.getTowar().getNazwa() + " Regal " + a.getRegal() + " Ilosc " + a.getIlosc());
+        }
+        Database.zamknij();
+
+        ChoiceBox tbox6 = new ChoiceBox(FXCollections.observableArrayList(
+                data3)
+        );
+
+        tbox6.setLayoutX(100);
+        tbox6.setLayoutY(100);
+
+        Button btn061 = new Button();
+        btn061.setText("X");
+        btn061.setLayoutX(370);
+        btn061.setLayoutY(10);
+        btn061.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart6.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn062 = new Button();
+        btn062.setText("Powrót");
+        btn062.setLayoutX(10);
+        btn062.setLayoutY(265);
+        btn062.setVisible(false);
+
+        Button btn063 = new Button();
+        btn063.setText("Edytuj Wybrany Wpis");
+        btn063.setLayoutX(10);
+        btn063.setLayoutY(265);
+
+        Button btn064 = new Button();
+        btn064.setText("Edytuj");
+        btn064.setLayoutX(10);
+        btn064.setLayoutY(235);
+        btn064.setVisible(false);
+
+        btn064.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                int pom = 0;
+                Database.polacz();
+                for (Towar a : towary) {
+                    if (a.getNazwa().equals(wart22.getValue().toString())) {
+
+                        Magazyn m = new Magazyn(Integer.parseInt(wart11.getText()), Database.readTowar(a.getId()), Integer.parseInt(wart33.getText()), Integer.parseInt(wart44.getText()));
+                        Database.updateMagazyn(m);
+                    }
+                }
+
+                Database.zamknij();
+                root.getChildren().clear();
+                Menu.menu(root, primaryStage);
+
+                Database.zamknij();
+
+            }
+        });
+
+        btn062.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                btn062.setVisible(false);
+                btn063.setVisible(true);
+                btn064.setVisible(false);
+                tbox6.setVisible(true);
+                wybr6.setVisible(true);
+                wart11.setVisible(false);
+                wart22.setVisible(false);
+                nwart11.setVisible(false);
+                nwart22.setVisible(false);
+                wart33.setVisible(false);
+                wart44.setVisible(false);
+                nwart33.setVisible(false);
+                nwart44.setVisible(false);
+                Database.polacz();
+
+            }
+        });
+
+        btn063.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                btn062.setVisible(true);
+                btn063.setVisible(false);
+                btn064.setVisible(true);
+                tbox6.setVisible(false);
+                wybr6.setVisible(false);
+                wart11.setVisible(true);
+                wart22.setVisible(true);
+                nwart11.setVisible(true);
+                nwart22.setVisible(true);
+                wart33.setVisible(true);
+                wart44.setVisible(true);
+                nwart33.setVisible(true);
+                nwart44.setVisible(true);
+                for (Magazyn a : l1) {
+                    String s = a.getId() + " Towar " + a.getTowar().getNazwa() + " Regal " + a.getRegal() + " Ilosc " + a.getIlosc();;
+
+                    if (s.equals(tbox6.getValue().toString())) {
+
+                        wart11.setText(Integer.toString(a.getId()));
+                        wart22.setValue(a.getTowar().getNazwa());
+                        wart33.setText(Integer.toString(a.getRegal()));
+                        wart44.setText(Integer.toString(a.getIlosc()));
+                    }
+                }
+                Database.zamknij();
+            }
+        });
+
+        oknoStart6.getChildren().add(Tytul6);
+        oknoStart6.getChildren().add(wybr6);
+        oknoStart6.getChildren().add(kom6);
+        oknoStart6.getChildren().add(tbox6);
+        oknoStart6.getChildren().add(btn061);
+        oknoStart6.getChildren().add(btn062);
+        oknoStart6.getChildren().add(btn063);
+        oknoStart6.getChildren().add(btn064);
+        oknoStart6.getChildren().add(wart11);
+        oknoStart6.getChildren().add(wart22);
+        oknoStart6.getChildren().add(nwart11);
+        oknoStart6.getChildren().add(nwart22);
+        oknoStart6.getChildren().add(wart33);
+        oknoStart6.getChildren().add(wart44);
+        oknoStart6.getChildren().add(nwart33);
+        oknoStart6.getChildren().add(nwart44);
+        ///////////koniec = okno start6
         //////////////////////////////////////////// 
         root.getChildren().add(Magazyny);
         root.getChildren().add(Lista);
@@ -673,16 +1059,21 @@ public abstract class Menu {
 
         root.getChildren().add(Dodaj);
         root.getChildren().add(Usuń);
+        root.getChildren().add(EdytujWpis);
         root.getChildren().add(Dodajt);
         root.getChildren().add(Usuńt);
+        root.getChildren().add(Edytut);
         root.getChildren().add(ramka5);
         root.getChildren().add(ramka6);
+        root.getChildren().add(ramka7);
         root.getChildren().add(r);
 
         root.getChildren().add(oknoStart);
         root.getChildren().add(oknoStart2);
         root.getChildren().add(oknoStart3);
         root.getChildren().add(oknoStart4);
+        root.getChildren().add(oknoStart5);
+        root.getChildren().add(oknoStart6);
 
         //////// WYKONANIE
         Listam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
@@ -692,6 +1083,8 @@ public abstract class Menu {
             Usuń.setVisible(false);
             Dodaj.setVisible(false);
             Usuńt.setVisible(false);
+            EdytujWpis.setVisible(false);
+            Edytut.setVisible(false);
             Dodajt.setVisible(false);
             Magazyny.setVisible(false);
             vbox.getChildren().clear();
@@ -713,6 +1106,8 @@ public abstract class Menu {
             Lista.setVisible(false);
             Usuńt.setVisible(true);
             Dodajt.setVisible(true);
+            EdytujWpis.setVisible(false);
+            Edytut.setVisible(true);
             Usuń.setVisible(false);
             Dodaj.setVisible(false);
             Magazyny.setVisible(false);
@@ -736,7 +1131,8 @@ public abstract class Menu {
             Dodaj.setVisible(true);
             Usuńt.setVisible(false);
             Dodajt.setVisible(false);
-
+            EdytujWpis.setVisible(true);
+            Edytut.setVisible(false);
             Magazyny.setVisible(true);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela3);
@@ -760,6 +1156,8 @@ public abstract class Menu {
             Usuńt.setVisible(false);
             Dodajt.setVisible(false);
             Magazyny.setVisible(false);
+            EdytujWpis.setVisible(false);
+            Edytut.setVisible(false);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela2);
         });
@@ -818,6 +1216,30 @@ public abstract class Menu {
         });
         Usuńt.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
             ramka6.setVisible(true);
+
+        });
+        EdytujWpis.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart6.setVisible(true);
+            r.setVisible(true);
+        });
+        EdytujWpis.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka7.setVisible(false);
+
+        });
+        EdytujWpis.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka7.setVisible(true);
+
+        });
+        Edytut.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart5.setVisible(true);
+            r.setVisible(true);
+        });
+        Edytut.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka7.setVisible(false);
+
+        });
+        Edytut.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka7.setVisible(true);
 
         });
         Wylogujm.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj

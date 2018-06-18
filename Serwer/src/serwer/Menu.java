@@ -40,7 +40,7 @@ import server.Database;
 
 public abstract class Menu {
 
-    static void menu(BorderPane root, Stage primaryStage) {
+    static void menu(BorderPane root, Stage primaryStage, int poziom) {
 
         ///////// IMAGE VIEW
         ImageView logo = new ImageView("file:SpeedySerwer.png");
@@ -422,7 +422,7 @@ public abstract class Menu {
                         Database.createUser(u);
                         Database.zamknij();
                         root.getChildren().clear();
-                        Menu.menu(root, primaryStage);
+                        Menu.menu(root, primaryStage, poziom);
                     }
                     Database.zamknij();
                 }
@@ -503,7 +503,7 @@ public abstract class Menu {
                         Database.deleteUser(a.getId());
                         Database.zamknij();
                         root.getChildren().clear();
-                        Menu.menu(root, primaryStage);
+                        Menu.menu(root, primaryStage, poziom);
                     }
                 }
             }
@@ -587,7 +587,7 @@ public abstract class Menu {
                     Database.createLokacja(l);
                     Database.zamknij();
                     root.getChildren().clear();
-                    Menu.menu(root, primaryStage);
+                    Menu.menu(root, primaryStage, poziom);
                 }
             }
         });
@@ -662,7 +662,7 @@ public abstract class Menu {
                         Database.deleteLokacja(a.getId());
                         Database.zamknij();
                         root.getChildren().clear();
-                        Menu.menu(root, primaryStage);
+                        Menu.menu(root, primaryStage, poziom);
                     }
                 }
             }

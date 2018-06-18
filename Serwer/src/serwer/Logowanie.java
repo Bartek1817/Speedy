@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Api;
 import server.Database;
 
 public abstract class Logowanie {
@@ -111,7 +112,7 @@ public abstract class Logowanie {
                 Database.polacz();
                 int poziom = Database.login(Integer.parseInt(login.getText()), Integer.parseInt(password.getText()));
                 Database.zamknij();
-                
+
                 /*
                 //inne
                 Socket socket = new Socket("127.0.0.1", 1100);
@@ -136,11 +137,13 @@ public abstract class Logowanie {
                 int poziom = (int) objInputStream.readObject();
                 System.out.println(poziom);
                 socket.close();
-                */
+                 */
                 if (poziom == 0 || poziom == 1 || poziom == 2 || poziom == 3 || poziom == 4 || poziom == 5) {
+                    Api test = new Api(1100);
+                    test.start();
                     error.setVisible(false);
                     root.getChildren().clear();
-                    Menu.menu(root, primaryStage);
+                    Menu.menu(root, primaryStage, poziom);
                 } else {
                     error.setVisible(true);
                 }
