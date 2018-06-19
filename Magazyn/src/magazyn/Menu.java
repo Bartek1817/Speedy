@@ -673,8 +673,8 @@ public abstract class Menu {
         oknoStart4.getChildren().add(btn006);
         oknoStart4.getChildren().add(btn007);
 
-        ///////////koniec = okno start5
-        ///////////Poczatek = okno start3
+        ///////////koniec = okno start4
+        ///////////Poczatek = okno start5
         Group oknoStart5 = new Group();
         oknoStart5.setVisible(false);
 

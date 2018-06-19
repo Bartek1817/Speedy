@@ -91,6 +91,12 @@ public abstract class Menu {
         ramka6.setFitWidth(125);
         ramka6.setVisible(false);
 
+        ImageView ramka7 = new ImageView("file:ramka.png");
+        ramka7.setLayoutX(570);
+        ramka7.setLayoutY(560);
+        ramka7.setFitHeight(35);
+        ramka7.setFitWidth(125);
+        ramka7.setVisible(false);
         ///////// TEXT
         Text Zlecenia = new Text("Lista Zleceń");
         Zlecenia.setStyle("-fx-font-size: 40pt;");
@@ -188,6 +194,22 @@ public abstract class Menu {
         UsuńZ.setLayoutX(435);
         UsuńZ.setPickOnBounds(true);
         UsuńZ.setVisible(true);
+
+        Text EdytujWpis = new Text("Edytuj Lokację");
+        EdytujWpis.setStyle("-fx-font-size: 12pt;");
+        EdytujWpis.setFill(Color.WHITE);
+        EdytujWpis.setLayoutY(580);
+        EdytujWpis.setLayoutX(580);
+        EdytujWpis.setPickOnBounds(true);
+        EdytujWpis.setVisible(false);
+
+        Text Edytut = new Text("Edytuj Usera");
+        Edytut.setStyle("-fx-font-size: 12pt;");
+        Edytut.setFill(Color.WHITE);
+        Edytut.setLayoutY(580);
+        Edytut.setLayoutX(580);
+        Edytut.setPickOnBounds(true);
+        Edytut.setVisible(false);
 
         Text cb = new Text("Aplication Speedy create by: AL && BŻ");
         cb.setStyle("-fx-font-size: 10pt;");
@@ -604,7 +626,7 @@ public abstract class Menu {
         oknoStart3.getChildren().add(btn005);
 
         ///////////koniec = okno start
-        ///////////Poczatek = okno start2
+        ///////////Poczatek = okno start4
         Group oknoStart4 = new Group();
         oknoStart4.setVisible(false);
 
@@ -623,7 +645,7 @@ public abstract class Menu {
         Database.polacz();
         ArrayList<Lokacja> l1 = Database.readLokacje();
         ObservableList<String> data3 = FXCollections.observableArrayList();
-        data.clear();
+        data3.clear();
         for (Lokacja a : l1) {
             data3.add(a.getId() + " " + a.getNazwa() + " " + a.getTyp() + " " + a.getIp());
         }
@@ -655,7 +677,7 @@ public abstract class Menu {
             @Override
             public void handle(ActionEvent event) {
                 for (Lokacja a : l1) {
-                    String s =a.getId() + " " +  a.getNazwa() + " " + a.getTyp() + " " + a.getIp();
+                    String s = a.getId() + " " + a.getNazwa() + " " + a.getTyp() + " " + a.getIp();
                     if (s.equals(cbox3.getValue().toString())) {
                         System.out.println("Usunieto " + s);
                         Database.polacz();
@@ -674,7 +696,420 @@ public abstract class Menu {
         oknoStart4.getChildren().add(btn006);
         oknoStart4.getChildren().add(btn007);
 
-        ///////////koniec = okno start2
+        ///////////koniec = okno start4
+        ///////////Poczatek = okno start5
+        Group oknoStart5 = new Group();
+        oknoStart5.setVisible(false);
+
+        oknoStart5.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart5.setLayoutX(300);
+        oknoStart5.setLayoutY(190);
+
+        Label Tytul5 = new Label("Edytowanie Lokacji");
+        Tytul5.setLayoutX(150);
+        Tytul5.setLayoutY(10);
+
+        Label wybr5 = new Label("Wybierz Lokację którą chcesz edytować");
+        wybr5.setLayoutX(100);
+        wybr5.setLayoutY(80);
+
+        Label kom5 = new Label("Wybrana nazwa jest już zajęta ");
+        kom5.setLayoutX(100);
+        kom5.setLayoutY(30);
+        kom5.setVisible(false);
+
+        Label wart1 = new Label("ID");
+        wart1.setLayoutX(35);
+        wart1.setLayoutY(145);
+        wart1.setVisible(false);
+
+        TextField wart2 = new TextField("Nazwa");
+        wart2.setLayoutX(75);
+        wart2.setLayoutY(140);
+        wart2.setVisible(false);
+
+        ChoiceBox wart3 = new ChoiceBox(FXCollections.observableArrayList(
+                "Magazyn", "Samochód"));
+        wart3.setLayoutX(145);
+        wart3.setLayoutY(140);
+        wart3.setVisible(false);
+
+        TextField wart4 = new TextField("IP");
+        wart4.setLayoutX(225);
+        wart4.setLayoutY(140);
+        wart4.setVisible(false);
+
+        Label nwart1 = new Label("ID");
+        nwart1.setLayoutX(35);
+        nwart1.setLayoutY(125);
+        nwart1.setVisible(false);
+
+        Label nwart2 = new Label("Nazwa");
+        nwart2.setLayoutX(75);
+        nwart2.setLayoutY(125);
+        nwart2.setVisible(false);
+
+        Label nwart3 = new Label("Typ");
+        nwart3.setLayoutX(145);
+        nwart3.setLayoutY(125);
+        nwart3.setVisible(false);
+
+        Label nwart4 = new Label("IP");
+        nwart4.setLayoutX(225);
+        nwart4.setLayoutY(125);
+        nwart4.setVisible(false);
+
+        Database.polacz();
+
+        Database.zamknij();
+        ChoiceBox tbox5 = new ChoiceBox(data3);
+
+        tbox5.setLayoutX(100);
+        tbox5.setLayoutY(100);
+
+        Button btn055 = new Button();
+        btn055.setText("X");
+        btn055.setLayoutX(370);
+        btn055.setLayoutY(10);
+        btn055.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart5.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn057 = new Button();
+        btn057.setText("Powrót");
+        btn057.setLayoutX(10);
+        btn057.setLayoutY(265);
+        btn057.setVisible(false);
+
+        Button btn056 = new Button();
+        btn056.setText("Edytuj Wybraną Lokację");
+        btn056.setLayoutX(10);
+        btn056.setLayoutY(265);
+
+        Button btn058 = new Button();
+        btn058.setText("Edytuj");
+        btn058.setLayoutX(10);
+        btn058.setLayoutY(235);
+        btn058.setVisible(false);
+
+        btn058.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                Database.polacz();
+
+                Lokacja l = new Lokacja(Integer.parseInt(wart1.getText()), wart2.getText(), wart3.getValue().toString(), wart4.getText());
+                Database.updateLokacja(l);
+                Database.zamknij();
+                root.getChildren().clear();
+                Menu.menu(root, primaryStage, poziom);
+
+            }
+        });
+
+        btn056.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                Database.polacz();
+                btn056.setVisible(false);
+                btn057.setVisible(true);
+                btn058.setVisible(true);
+                tbox5.setVisible(false);
+                wybr5.setVisible(false);
+                wart1.setVisible(true);
+                wart2.setVisible(true);
+                nwart1.setVisible(true);
+                nwart2.setVisible(true);
+                wart3.setVisible(true);
+                wart4.setVisible(true);
+                nwart3.setVisible(true);
+                nwart4.setVisible(true);
+
+                for (Lokacja a : l1) {
+                    String s = a.getId() + " " + a.getNazwa() + " " + a.getTyp() + " " + a.getIp();
+                    if (s.equals(tbox5.getValue().toString())) {
+                        wart1.setText(Integer.toString(a.getId()));
+                        wart2.setText(a.getNazwa());
+                        wart3.setValue(a.getTyp());
+                        wart4.setText(a.getIp());
+                    }
+                }
+
+                Database.zamknij();
+
+            }
+        });
+
+        btn057.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                btn056.setVisible(true);
+                btn057.setVisible(false);
+                btn058.setVisible(false);
+                tbox5.setVisible(true);
+                wybr5.setVisible(true);
+                wart1.setVisible(false);
+                wart2.setVisible(false);
+                nwart1.setVisible(false);
+                nwart2.setVisible(false);
+                wart3.setVisible(false);
+                wart4.setVisible(false);
+                nwart3.setVisible(false);
+                nwart4.setVisible(false);
+            }
+        });
+
+        oknoStart5.getChildren().add(Tytul5);
+        oknoStart5.getChildren().add(wybr5);
+        oknoStart5.getChildren().add(kom5);
+        oknoStart5.getChildren().add(tbox5);
+        oknoStart5.getChildren().add(btn055);
+        oknoStart5.getChildren().add(btn056);
+        oknoStart5.getChildren().add(btn057);
+        oknoStart5.getChildren().add(btn058);
+        oknoStart5.getChildren().add(wart1);
+        oknoStart5.getChildren().add(wart2);
+        oknoStart5.getChildren().add(nwart1);
+        oknoStart5.getChildren().add(nwart2);
+        oknoStart5.getChildren().add(wart3);
+        oknoStart5.getChildren().add(wart4);
+        oknoStart5.getChildren().add(nwart3);
+        oknoStart5.getChildren().add(nwart4);
+
+        ///////////koniec = okno start5
+        ///////////Poczatek = okno start6
+        Group oknoStart6 = new Group();
+        oknoStart6.setVisible(false);
+
+        oknoStart6.getChildren().add(new Rectangle(400, 300, new Color(1f, 1f, 1f, .85f)));
+        oknoStart6.setLayoutX(300);
+        oknoStart6.setLayoutY(190);
+
+        Label Tytul6 = new Label("Edytowanie Usera");
+        Tytul6.setLayoutX(150);
+        Tytul6.setLayoutY(10);
+
+        Label wybr6 = new Label("Wybierz Usera którego chcesz edytować");
+        wybr6.setLayoutX(100);
+        wybr6.setLayoutY(80);
+
+        Label kom6 = new Label("Wybrany numer jest już zajęty ");
+        kom6.setLayoutX(100);
+        kom6.setLayoutY(30);
+        kom6.setVisible(false);
+
+        Label wart11 = new Label("ID");
+        wart11.setLayoutX(5);
+        wart11.setLayoutY(145);
+        wart11.setVisible(false);
+
+        TextField wart22 = new TextField("Numer");
+        wart22.setLayoutX(30);
+        wart22.setLayoutY(140);
+        wart22.setVisible(false);
+
+        TextField wart33 = new TextField("Hasło");
+        wart33.setLayoutX(90);
+        wart33.setLayoutY(140);
+        wart33.setVisible(false);
+
+        TextField wart44 = new TextField("Imię");
+        wart44.setLayoutX(150);
+        wart44.setLayoutY(140);
+        wart44.setVisible(false);
+
+        TextField wart55 = new TextField("Nazwisko");
+        wart55.setLayoutX(205);
+        wart55.setLayoutY(140);
+        wart55.setVisible(false);
+
+        TextField wart66 = new TextField("Poziom");
+        wart66.setLayoutX(270);
+        wart66.setLayoutY(140);
+        wart66.setVisible(false);
+        wart66.setMaxWidth(110);
+
+        Label nwart11 = new Label("ID");
+        nwart11.setLayoutX(5);
+        nwart11.setLayoutY(125);
+        nwart11.setVisible(false);
+
+        Label nwart22 = new Label("Numer");
+        nwart22.setLayoutX(65);
+        nwart22.setLayoutY(125);
+        nwart22.setVisible(false);
+
+        Label nwart33 = new Label("Hasło");
+        nwart33.setLayoutX(125);
+        nwart33.setLayoutY(125);
+        nwart33.setVisible(false);
+
+        Label nwart44 = new Label("Imię");
+        nwart44.setLayoutX(185);
+        nwart44.setLayoutY(125);
+        nwart44.setVisible(false);
+
+        Label nwart55 = new Label("Nazwisko");
+        nwart55.setLayoutX(235);
+        nwart55.setLayoutY(125);
+        nwart55.setVisible(false);
+
+        Label nwart66 = new Label("Poziom");
+        nwart66.setLayoutX(305);
+        nwart66.setLayoutY(125);
+        nwart66.setVisible(false);
+
+        ChoiceBox tbox6 = new ChoiceBox(FXCollections.observableArrayList(
+                data)
+        );
+
+        tbox6.setLayoutX(100);
+        tbox6.setLayoutY(100);
+
+        Button btn061 = new Button();
+        btn061.setText("X");
+        btn061.setLayoutX(370);
+        btn061.setLayoutY(10);
+        btn061.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                oknoStart6.setVisible(false);
+                r.setVisible(false);
+            }
+        });
+
+        Button btn062 = new Button();
+        btn062.setText("Powrót");
+        btn062.setLayoutX(10);
+        btn062.setLayoutY(265);
+        btn062.setVisible(false);
+
+        Button btn063 = new Button();
+        btn063.setText("Edytuj Wybranego Usera");
+        btn063.setLayoutX(10);
+        btn063.setLayoutY(265);
+
+        Button btn064 = new Button();
+        btn064.setText("Edytuj");
+        btn064.setLayoutX(10);
+        btn064.setLayoutY(235);
+        btn064.setVisible(false);
+
+        btn064.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                int pom = 0;
+                Database.polacz();
+                for (User a : usr2) {
+                    if (a.getNumer() == Integer.parseInt(wart22.getText()) && a.getId() != Integer.parseInt(wart11.getText())) {
+                        pom++;
+                    }
+                }
+                if (pom == 0) // nie powtarza siewa
+                {
+                    User u = new User(Integer.parseInt(wart11.getText()), Integer.parseInt(wart22.getText()), Integer.parseInt(wart33.getText()), wart44.getText(), wart55.getText(), Integer.parseInt(wart66.getText()));
+                    Database.updateUser(u);
+                    Database.zamknij();
+                    root.getChildren().clear();
+                    Menu.menu(root, primaryStage, poziom);
+
+                } else {
+                    kom6.setVisible(true);
+                    Database.zamknij();
+                }
+
+            }
+        });
+
+        btn062.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                btn062.setVisible(false);
+                btn063.setVisible(true);
+                btn064.setVisible(false);
+                tbox6.setVisible(true);
+                wybr6.setVisible(true);
+                wart11.setVisible(false);
+                wart22.setVisible(false);
+                nwart11.setVisible(false);
+                nwart22.setVisible(false);
+                wart33.setVisible(false);
+                wart44.setVisible(false);
+                nwart33.setVisible(false);
+                nwart44.setVisible(false);
+                wart55.setVisible(false);
+                wart66.setVisible(false);
+                nwart55.setVisible(false);
+                nwart66.setVisible(false);
+                Database.polacz();
+
+            }
+        });
+
+        btn063.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                btn062.setVisible(true);
+                btn063.setVisible(false);
+                btn064.setVisible(true);
+                tbox6.setVisible(false);
+                wybr6.setVisible(false);
+                wart11.setVisible(true);
+                wart22.setVisible(true);
+                nwart11.setVisible(true);
+                nwart22.setVisible(true);
+                wart33.setVisible(true);
+                wart44.setVisible(true);
+                wart55.setVisible(true);
+                wart66.setVisible(true);
+                nwart33.setVisible(true);
+                nwart44.setVisible(true);
+                nwart55.setVisible(true);
+                nwart66.setVisible(true);
+                for (User a : usr2) {
+                    String s = a.getImie() + " " + a.getImie() + " NUMER: " + a.getNumer();
+                    if (s.equals(tbox6.getValue().toString())) {
+                        wart11.setText(Integer.toString(a.getId()));
+                        wart22.setText(Integer.toString(a.getNumer()));
+                        wart33.setText(Integer.toString(a.getHaslo()));
+                        wart44.setText(a.getImie());
+                        wart55.setText(a.getNazwiosko());
+                        wart66.setText(Integer.toString(a.getPoziom()));
+                    }
+                }
+                Database.zamknij();
+            }
+        });
+
+        oknoStart6.getChildren().add(Tytul6);
+        oknoStart6.getChildren().add(wybr6);
+        oknoStart6.getChildren().add(kom6);
+        oknoStart6.getChildren().add(tbox6);
+        oknoStart6.getChildren().add(btn061);
+        oknoStart6.getChildren().add(btn062);
+        oknoStart6.getChildren().add(btn063);
+        oknoStart6.getChildren().add(btn064);
+        oknoStart6.getChildren().add(wart11);
+        oknoStart6.getChildren().add(wart22);
+        oknoStart6.getChildren().add(nwart11);
+        oknoStart6.getChildren().add(nwart22);
+        oknoStart6.getChildren().add(wart33);
+        oknoStart6.getChildren().add(wart44);
+        oknoStart6.getChildren().add(nwart33);
+        oknoStart6.getChildren().add(nwart44);
+        oknoStart6.getChildren().add(wart55);
+        oknoStart6.getChildren().add(wart66);
+        oknoStart6.getChildren().add(nwart55);
+        oknoStart6.getChildren().add(nwart66);
+        ///////////koniec = okno start6
+
         //////////////////////////////////////////// 
         root.getChildren().add(Lista);
         root.getChildren().add(Zlecenia);
@@ -692,6 +1127,7 @@ public abstract class Menu {
         root.getChildren().add(ramka4);
         root.getChildren().add(ramka5);
         root.getChildren().add(ramka6);
+        root.getChildren().add(ramka7);
         root.getChildren().add(vbox);
 
         root.getChildren().add(DodajZ);
@@ -700,6 +1136,8 @@ public abstract class Menu {
         root.getChildren().add(UsuńU);
         root.getChildren().add(DodajL);
         root.getChildren().add(UsuńL);
+        root.getChildren().add(Edytut);
+        root.getChildren().add(EdytujWpis);
 
         root.getChildren().add(r);
 
@@ -707,6 +1145,8 @@ public abstract class Menu {
         root.getChildren().add(oknoStart2);
         root.getChildren().add(oknoStart3);
         root.getChildren().add(oknoStart4);
+        root.getChildren().add(oknoStart5);
+        root.getChildren().add(oknoStart6);
         //////// WYKONANIE
 
         Zleceniam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
@@ -719,6 +1159,8 @@ public abstract class Menu {
             DodajU.setVisible(false);
             UsuńL.setVisible(false);
             DodajL.setVisible(false);
+            EdytujWpis.setVisible(false);
+            Edytut.setVisible(false);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela1);
         });
@@ -741,6 +1183,8 @@ public abstract class Menu {
             DodajU.setVisible(false);
             UsuńL.setVisible(true);
             DodajL.setVisible(true);
+            EdytujWpis.setVisible(true);
+            Edytut.setVisible(false);
             vbox.getChildren().clear();
             vbox.getChildren().add(tabela2);
 
@@ -763,6 +1207,8 @@ public abstract class Menu {
             DodajZ.setVisible(false);
             UsuńU.setVisible(true);
             DodajU.setVisible(true);
+            EdytujWpis.setVisible(false);
+            Edytut.setVisible(true);
             UsuńL.setVisible(false);
             DodajL.setVisible(false);
             vbox.getChildren().clear();
@@ -850,7 +1296,30 @@ public abstract class Menu {
             ramka6.setVisible(true);
 
         });
+        EdytujWpis.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart5.setVisible(true);
+            r.setVisible(true);
+        });
+        EdytujWpis.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka7.setVisible(false);
 
+        });
+        EdytujWpis.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka7.setVisible(true);
+
+        });
+        Edytut.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
+            oknoStart6.setVisible(true);
+            r.setVisible(true);
+        });
+        Edytut.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
+            ramka7.setVisible(false);
+
+        });
+        Edytut.setOnMouseEntered((MouseEvent e) -> { // Po najechaniu wykonaj
+            ramka7.setVisible(true);
+
+        });
         Wylogujm.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             root.getChildren().clear();
             Logowanie.menu(root, primaryStage);
