@@ -28,6 +28,8 @@ public class test extends Application {
             
             @Override
             public void handle(ActionEvent event) {
+                Api test = new Api(1102);
+                test.start();
                 System.out.println("Hello World!");
             }
         });
@@ -38,7 +40,7 @@ public class test extends Application {
         Scene scene = new Scene(root, 300, 250);
         
         Database.polacz();
-        
+        /*
         //Test read
         for(Zamowienie z : Database.readZamowienia())
         {
@@ -64,7 +66,7 @@ public class test extends Application {
         //Test delete
         Database.deleteInfo(1);
         Database.deleteZamowienie(1);
-        
+        */
         Database.zamknij();
         
         primaryStage.setTitle("Hello World!");
