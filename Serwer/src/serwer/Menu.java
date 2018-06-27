@@ -12,7 +12,16 @@ package serwer;
 import dane.Lokacja;
 import dane.User;
 import dane.Zlecenie;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -1149,20 +1158,26 @@ public abstract class Menu {
         root.getChildren().add(oknoStart6);
         //////// WYKONANIE
 
-        Zleceniam.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
-            Użytkownicy.setVisible(false);
-            Zlecenia.setVisible(true);
-            Lista.setVisible(false);
-            UsuńZ.setVisible(true);
-            DodajZ.setVisible(true);
-            UsuńU.setVisible(false);
-            DodajU.setVisible(false);
-            UsuńL.setVisible(false);
-            DodajL.setVisible(false);
-            EdytujWpis.setVisible(false);
-            Edytut.setVisible(false);
-            vbox.getChildren().clear();
-            vbox.getChildren().add(tabela1);
+        Zleceniam.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                // Po kliknieciu wykonaj
+               
+                
+                Użytkownicy.setVisible(false);
+                Zlecenia.setVisible(true);
+                Lista.setVisible(false);
+                UsuńZ.setVisible(true);
+                DodajZ.setVisible(true);
+                UsuńU.setVisible(false);
+                DodajU.setVisible(false);
+                UsuńL.setVisible(false);
+                DodajL.setVisible(false);
+                EdytujWpis.setVisible(false);
+                Edytut.setVisible(false);
+                vbox.getChildren().clear();
+                vbox.getChildren().add(tabela1);
+            }
         });
         Zleceniam.setOnMouseExited((MouseEvent e) -> { // Po zjechaniu wykonaj
             ramka1.setVisible(false);

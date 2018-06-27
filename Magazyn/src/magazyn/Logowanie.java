@@ -9,6 +9,11 @@
  */
 package magazyn;
 
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -18,6 +23,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Api;
+import server.Database;
 
 public abstract class Logowanie {
 
@@ -100,17 +107,35 @@ public abstract class Logowanie {
 
         Zaloguj.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
             try {
-                try {
 
-                } catch (Exception w) {
-                    System.err.println(w);
-                }
-                if (login.getText().equals("admin") && password.getText().equals("admin")) ///// ZMIANA NA CZAS PRAC BO LOGOWANIE DENERWUJE
-                {
+                Socket socket = new Socket("127.0.0.1", 1100);
+                socket.setTcpNoDelay(true);
+                OutputStream outputStream = socket.getOutputStream();
+                InputStream inputStream = socket.getInputStream();
+                ObjectInputStream objInputStream = null;
+
+                ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
+                objOutputStream.writeObject("login");
+                objOutputStream.flush();
+
+                objOutputStream = new ObjectOutputStream(outputStream);
+                objOutputStream.writeObject(login.getText());
+                objOutputStream.flush();
+
+                objOutputStream = new ObjectOutputStream(outputStream);
+                objOutputStream.writeObject(password.getText());
+                objOutputStream.flush();
+
+                objInputStream = new ObjectInputStream(inputStream);
+                int poziom = (int) objInputStream.readObject();
+                System.out.println(poziom);
+                socket.close();
+
+                if (poziom == 0 || poziom == 1 || poziom == 2 || poziom == 3 || poziom == 4 || poziom == 5) {
+
                     error.setVisible(false);
                     root.getChildren().clear();
                     Menu.menu(root, primaryStage);
-
                 } else {
                     error.setVisible(true);
                 }

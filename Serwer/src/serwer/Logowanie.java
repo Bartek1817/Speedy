@@ -161,53 +161,6 @@ public abstract class Logowanie {
             ramka.setVisible(true);
 
         });
-
-        Task task2 = new Task<Void>() {//nowy wątek
-            @Override
-            public Void call() {
-                try {
-                    Socket socket = new Socket("127.0.0.1", 1100);
-                    socket.setTcpNoDelay(true);
-                    OutputStream outputStream = socket.getOutputStream();
-                    InputStream inputStream = socket.getInputStream();
-                    ObjectInputStream objInputStream = null;
-
-                    //wysyłanie pierwszego obiektu - polecenie login
-                    ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
-                    objOutputStream.writeObject("login");
-                    objOutputStream.flush();
-                    updateProgress(1, 4);//progres (obecny, max)
-
-                    Thread.sleep(500);//uśpienie, żeby było widać progres
-
-                    //wysyłanie drugiego obiektu - numer
-                    objOutputStream = new ObjectOutputStream(outputStream);
-                    objOutputStream.writeObject("1111");
-                    objOutputStream.flush();
-                    updateProgress(2, 4);//progres (obecny, max)
-
-                    Thread.sleep(500);//uśpienie, żeby było widać progres
-
-                    //wysyłanie trzeciego obiektu - haslo
-                    objOutputStream = new ObjectOutputStream(outputStream);
-                    objOutputStream.writeObject("1111");
-                    objOutputStream.flush();
-                    updateProgress(3, 4);//progres (obecny, max)
-
-                    Thread.sleep(500);//uśpienie, żeby było widać progres
-
-                    //odbieranie obiektu - poziom usera
-                    objInputStream = new ObjectInputStream(inputStream);
-                    int poziom = (int) objInputStream.readObject();
-                    System.out.println(poziom);
-                    updateProgress(4, 4);//progres (obecny, max)
-                    socket.close();
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-                return null;
-            }
-        };
     }
 
 }
