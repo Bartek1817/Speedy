@@ -127,8 +127,8 @@ public class test2 extends Application {
                 };
                 //bar.progressProperty().bind(task.progressProperty());
                 //new Thread(task).start();
-                bar.progressProperty().bind(task2.progressProperty());
-                new Thread(task2).start();
+                bar.progressProperty().bind(task.progressProperty());
+                new Thread(task).start();
 
             }
             

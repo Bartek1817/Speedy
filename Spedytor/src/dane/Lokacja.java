@@ -5,25 +5,20 @@
  */
 package dane;
 
-import java.io.Serializable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 /**
  *
  * @author Arekl
  */
-public class Lokacja{
+public class Lokacja {
     int id;
-    String nazwa;
     String typ;
+    String nazwa;
     String ip;
 
-    public Lokacja(int id, String nazwa, String typ, String ip) {
+    public Lokacja(int id, String typ, String nazwa, String ip) {
         this.id = id;
-        this.nazwa = nazwa;
         this.typ = typ;
+        this.nazwa = nazwa;
         this.ip = ip;
     }
 
@@ -35,14 +30,6 @@ public class Lokacja{
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
-
     public String getTyp() {
         return typ;
     }
@@ -51,12 +38,25 @@ public class Lokacja{
         this.typ = typ;
     }
 
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
     public String getIp() {
         return ip;
     }
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    @Override
+    public String toString() {
+        return nazwa;
     }
     
 }

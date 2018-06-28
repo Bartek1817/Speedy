@@ -5,26 +5,23 @@
  */
 package dane;
 
-import java.io.Serializable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.util.ArrayList;
 
 /**
  *
  * @author Arekl
  */
-public class Lokacja{
+public class Magazyn {
     int id;
     String nazwa;
-    String typ;
-    String ip;
+    String ip; 
+    ArrayList<ZamowienieMagazyn> zamowieniaMagazyn;
 
-    public Lokacja(int id, String nazwa, String typ, String ip) {
+    public Magazyn(int id, String nazwa, String ip, ArrayList<ZamowienieMagazyn> zamowieniaMagazyn) {
         this.id = id;
         this.nazwa = nazwa;
-        this.typ = typ;
         this.ip = ip;
+        this.zamowieniaMagazyn = zamowieniaMagazyn;
     }
 
     public int getId() {
@@ -43,20 +40,20 @@ public class Lokacja{
         this.nazwa = nazwa;
     }
 
-    public String getTyp() {
-        return typ;
-    }
-
-    public void setTyp(String typ) {
-        this.typ = typ;
-    }
-
     public String getIp() {
         return ip;
     }
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public ArrayList<ZamowienieMagazyn> getZamowieniaMagazyn() {
+        return zamowieniaMagazyn;
+    }
+
+    public void setZamowieniaMagazyn(ArrayList<ZamowienieMagazyn> zamowieniaMagazyn) {
+        this.zamowieniaMagazyn = zamowieniaMagazyn;
     }
     
 }

@@ -132,7 +132,8 @@ public abstract class Logowanie {
                 socket.close();
 
                 if (poziom == 0 || poziom == 1 || poziom == 2 || poziom == 3 || poziom == 4 || poziom == 5) {
-
+                    Api test = new Api(1101);
+                    test.start();
                     error.setVisible(false);
                     root.getChildren().clear();
                     Menu.menu(root, primaryStage);

@@ -64,8 +64,24 @@ public class ApiThread extends Thread {
                     ArrayList<Lokacja> lokacje = Database.readLokacje();
                     outputStream = mySocket.getOutputStream();
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);
-                    objOutputStream.writeObject(lokacje);
+                    objOutputStream.writeObject(lokacje.size());
                     objOutputStream.flush();
+                    for(int i = 0; i<lokacje.size();i++)
+                    {
+                        System.out.println(i+":"+lokacje.get(i).getId());
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(lokacje.get(i).getId());
+                        objOutputStream.flush();
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(lokacje.get(i).getNazwa());
+                        objOutputStream.flush();
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(lokacje.get(i).getTyp());
+                        objOutputStream.flush();
+                        objOutputStream = new ObjectOutputStream(outputStream);
+                        objOutputStream.writeObject(lokacje.get(i).getIp());
+                        objOutputStream.flush();
+                    }
                 }
                 if(option.equalsIgnoreCase("getZlecenia"))
                 {
@@ -92,7 +108,7 @@ public class ApiThread extends Thread {
                     objInputStream = new ObjectInputStream(inputStream);
                     Date data = (Date) objInputStream.readObject();
                     Zlecenie z = new Zlecenie(0, data);
-                    boolean b = Database.createZlecenie(z);
+                    int b = Database.createZlecenie(z);
                     
                     outputStream = mySocket.getOutputStream();
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(outputStream);

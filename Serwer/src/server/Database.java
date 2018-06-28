@@ -100,7 +100,7 @@ public class Database {
             ResultSet r = st.executeQuery("SELECT * FROM Zlecenia");
             while(r.next())
             {
-                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date d = format.parse(r.getString("data"));
                 a.add(new Zlecenie(r.getInt("id"), d));
             }
@@ -196,11 +196,11 @@ public class Database {
         }
         return a;
     }
-    public static boolean createZlecenie(Zlecenie a) {
+    public static int createZlecenie(Zlecenie a) {
         try {
             Statement st = con.createStatement();
             ResultSet r = st.executeQuery("SELECT max(id) as max FROM Zlecenia");
-            int id;
+            int id = -1;
             if(r.next())
             {
                 id = r.getInt("max")+1;
@@ -208,10 +208,10 @@ public class Database {
                 st.executeUpdate("INSERT INTO Zlecenia VALUES ("+id+",'"+format.format(a.getData())+"')");
             }
             st.close();
-            return true;
+            return id;
         } catch (SQLException e) {
             System.out.println(e);
-            return false;
+            return -1;
         }
     }
     public static boolean createLokacja(Lokacja a) {

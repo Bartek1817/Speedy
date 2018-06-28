@@ -127,11 +127,10 @@ Zaloguj.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
                 
                 objInputStream = new ObjectInputStream(inputStream);
                 int poziom = (int) objInputStream.readObject();
-                System.out.println(poziom);
                 socket.close();
                  
                 if (poziom == 0 || poziom == 1 || poziom == 2 || poziom == 3 || poziom == 4 || poziom == 5) {
-                   
+                    
                     error.setVisible(false);
                     root.getChildren().clear();
                     Menu.menu(root, primaryStage);
