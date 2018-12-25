@@ -23,6 +23,7 @@ public class Towar {
     }
 
     public void setId(int id) {
+        assert(id<0);
         this.id = id;
     }
 
@@ -31,6 +32,7 @@ public class Towar {
     }
 
     public void setNazwa(String nazwa) {
+        assert(nazwa.length()>255);
         this.nazwa = nazwa;
     }
 

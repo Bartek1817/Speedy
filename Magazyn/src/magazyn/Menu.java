@@ -652,6 +652,7 @@ public abstract class Menu {
                 }
                 if (pom == 0) // nie powtarza sie
                 {
+                    assert(nazwatow.getText().length()>255);
                     Towar t = new Towar(0, nazwatow.getText());
                     Database.createTowar(t);
                     Database.zamknij();

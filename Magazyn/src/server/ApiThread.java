@@ -43,7 +43,7 @@ public class ApiThread extends Thread {
                 {
                     System.out.println(option);
                     ArrayList<Towar> towary = Database.readTowary();
-                    
+                    assert(towary.size() == 0);
                     outputStream = mySocket.getOutputStream();
                     objOutputStream = new ObjectOutputStream(outputStream);
                     objOutputStream.writeObject(towary.size());

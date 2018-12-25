@@ -118,10 +118,12 @@ Zaloguj.setOnMouseClicked((MouseEvent e) -> { // Po kliknieciu wykonaj
                 objOutputStream.flush();
                 
                 objOutputStream = new ObjectOutputStream(outputStream);
+                assert (login.getText().length() > 255);
                 objOutputStream.writeObject(login.getText());
                 objOutputStream.flush();
                 
                 objOutputStream = new ObjectOutputStream(outputStream);
+                assert (password.getText().length() > 255);
                 objOutputStream.writeObject(password.getText());
                 objOutputStream.flush();
                 

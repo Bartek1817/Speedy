@@ -312,6 +312,8 @@ public abstract class Menu {
             String ipKie = ((Lokacja)(wyborKierowcy.getSelectionModel().getSelectedItem())).getIp();
             String lok = ((Lokacja)(wyborMagazynu.getSelectionModel().getSelectedItem())).getNazwa();
             int il = Integer.parseInt(ilosc.getText());
+            assert(data.getText().length()>255);
+            assert(il==0);
             dodajZlecenie(data.getText(), ipMag, idTowaru, il, 0, ipKie, lok, 0);
             
             vbox.getChildren().clear();
