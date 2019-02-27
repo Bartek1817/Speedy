@@ -1,4 +1,4 @@
-![Alt text]Serwer/SpeedySerwer.png?raw=true "Title")
+![Alt text](Serwer/SpeedySerwer.png?raw=true "Title")
 
 [English](#english)
 [Polski](#polski)
@@ -10,12 +10,12 @@ Each application is very similar to each other, differences depend on functional
 
 Functionalities:
 * Contract management
-  * Adding Orders / Deleting Orders
-  * Display orders
+  * Adding Orders / Deleting Orders
+  * Display orders
 * Management of Goods / Inventory Records
-  * Adding / Deleting Goods
-  * Adding / Deleting a Storage Entry
-  * Display of Goods / Storage Entries
+  * Adding / Deleting Goods
+  * Adding / Deleting a Storage Entry
+  * Display of Goods / Storage Entries
 * Log In / Out
 * Add / Remove Sites
 * Administering access rights.
@@ -27,14 +27,14 @@ Aplikacje do obsługi spedycji napisana w języku JAVA. Dane przechowywane w dw�
 Każda z aplikacji jest do siebie bardzo podobna, różnice polegają na funkcjonalności. Magazynierzy zarządzają magazynem mogą dodawać i usuwać towary, Spedytorzy dysponują flotom samochodów oraz kierowców, którą zarządzają tworząc zlecenia, Kierowcy mają podgląd do wykonywanych zleceń, natomiast administrator na serwerze może zarządzać użytkownikami oraz wykonywać wszystkie funkcjonalności.
 
 Funkcjonalności:
-*Zarządzanie Zleceniami 
-  *Dodawanie Zleceń / Usuwanie Zleceń 
-  *Wyświetlanie Zleceń 
-*Zarządzenie Towarami/ Wpisami Magazynowymi   
-  *Dodawanie/Usuwanie Towaru 
-  *Dodawanie/Usuwanie Wpisu Magazynowego 
-  *Wyświetlenie Towarów/ Wpisów Magazynowych 
-*Logowanie/Wylogowanie 
-*Dodawanie/Usuwanie Lokacji 
-*Administrowanie prawami dostępu. 
-*Administrowanie Danymi 
+* Zarządzanie Zleceniami 
+  * Dodawanie Zleceń / Usuwanie Zleceń 
+  * Wyświetlanie Zleceń 
+* Zarządzenie Towarami/ Wpisami Magazynowymi   
+  * Dodawanie/Usuwanie Towaru 
+  * Dodawanie/Usuwanie Wpisu Magazynowego 
+  * Wyświetlenie Towarów/ Wpisów Magazynowych 
+* Logowanie/Wylogowanie 
+* Dodawanie/Usuwanie Lokacji 
+* Administrowanie prawami dostępu. 
+* Administrowanie Danymi 
